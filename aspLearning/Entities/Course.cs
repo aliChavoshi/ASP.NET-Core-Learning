@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace aspLearning.Entities;
-
+//SOLID => data annotation => S 
 [Table("MyCourse", Schema = "catalog")]
 [PrimaryKey(nameof(Id), nameof(Guid))]
 public class Course(int id, string name, string description)
@@ -19,7 +19,6 @@ public class Course(int id, string name, string description)
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int RecordNum { get; set; }
 
-    [Required(ErrorMessage = "please insert the value")]
     public string Description { get; set; } = description;
 
     public List<string> Tags { get; set; } = new();

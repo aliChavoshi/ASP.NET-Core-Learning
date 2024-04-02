@@ -12,8 +12,8 @@ public class MyContext(DbContextOptions<MyContext> options) : DbContext(options)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Course>()
-            .Property(x => x.Name)
-            .IsRequired();
+            .Property(x => x.Description)
+            .IsRequired(false);
 
         base.OnModelCreating(modelBuilder);
     }
