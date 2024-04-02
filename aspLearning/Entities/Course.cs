@@ -5,15 +5,18 @@ using Microsoft.EntityFrameworkCore;
 namespace aspLearning.Entities;
 
 [Table("MyCourse", Schema = "catalog")]
-//[Index(nameof(Name), IsUnique = true)]
+[PrimaryKey(nameof(Id), nameof(Guid))]
 public class Course(int id, string name, string description)
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public int Id { get; set; } = id;
+
+    [Key] public Guid Guid { get; set; } = Guid.NewGuid();
 
     public string Name { get; set; } = name;
 
     [Required(ErrorMessage = "please insert the value")]
-    [Column(Order = 1)]
     public string Description { get; set; } = description;
 
     public List<string> Tags { get; set; } = new();
