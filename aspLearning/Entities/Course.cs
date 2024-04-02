@@ -8,16 +8,22 @@ namespace aspLearning.Entities;
 [PrimaryKey(nameof(Id), nameof(Guid))]
 public class Course(int id, string name, string description)
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public int Id { get; set; } = id;
+    [Key] //indexable
+    // [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public int Id { get; set; } = id; //1 , 2 , 3
 
     [Key] public Guid Guid { get; set; } = Guid.NewGuid();
 
     public string Name { get; set; } = name;
 
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int RecordNum { get; set; }
+
     [Required(ErrorMessage = "please insert the value")]
     public string Description { get; set; } = description;
 
     public List<string> Tags { get; set; } = new();
+
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)] //added or updated
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
 }

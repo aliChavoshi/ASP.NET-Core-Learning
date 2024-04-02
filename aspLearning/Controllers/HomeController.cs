@@ -1,20 +1,22 @@
 using aspLearning.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using aspLearning.Context;
+using aspLearning.Entities;
 
 namespace aspLearning.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(ILogger<HomeController> logger, MyContext context) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        private readonly ILogger<HomeController> _logger = logger;
+        private readonly MyContext _context = context;
 
         public IActionResult Index()
         {
+            // _context.Courses.Add(new Course
+            // {
+            //     CreatedDate = 
+            // })
             return View();
         }
 
