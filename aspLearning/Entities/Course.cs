@@ -3,26 +3,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace aspLearning.Entities;
-//SOLID => data annotation => S 
+
 [Table("MyCourse", Schema = "catalog")]
-[PrimaryKey(nameof(Id), nameof(Guid))]
+[Index(nameof(Name), nameof(RecordNum), IsUnique = true,Name = "Multiple_Index")]
 public class Course(int id, string name, string description)
 {
-    [Key] //indexable
-    // [DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public int Id { get; set; } = id; //1 , 2 , 3
+    [Key] public int Id { get; set; } = id; //1 , 2 , 3
 
-    [Key] public Guid Guid { get; set; } = Guid.NewGuid();
+    //[ForeignKey(nameof(Author))]
+    public int? AuthorId { get; set; }  //nullable
+
+    [ForeignKey(nameof(AuthorId))]
+    public Author Author { get; set; }
 
     public string Name { get; set; } = name;
 
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int RecordNum { get; set; }
 
     public string Description { get; set; } = description;
 
-    public List<string> Tags { get; set; } = new();
-
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)] //added or updated
-    public DateTime CreatedDate { get; set; } = DateTime.Now;
+    public bool IsDeleted { get; set; } = false; //false => true
 }
