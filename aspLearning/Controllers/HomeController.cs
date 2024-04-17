@@ -17,6 +17,7 @@ namespace aspLearning.Controllers
             // {
             //     CreatedDate = 
             // })
+            _context.SaveChanges();
             return View();
         }
 

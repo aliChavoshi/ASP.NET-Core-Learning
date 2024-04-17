@@ -9,6 +9,7 @@ public class User
     public int Id { get; set; }
 
     [Remote(action: "CheckingUserName", controller: "Home", HttpMethod = "POST", ErrorMessage = "")]
+    [MaxLength(120,ErrorMessage = "")]
     public string UserName { get; set; }
 
     [Compare(nameof(Password), ErrorMessage = "")]
