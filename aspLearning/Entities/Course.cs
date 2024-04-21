@@ -13,7 +13,8 @@ public class Course(int id, string name, string description)
     //[ForeignKey(nameof(Author))]
     public int? AuthorId { get; set; } //nullable
 
-    [ForeignKey(nameof(AuthorId))] public Author Author { get; set; }
+    [ForeignKey(nameof(AuthorId))]
+    public Author Author { get; set; }
 
     [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "")] //@^$(*#&$()#*%_(
     public string Name { get; set; } = name;
@@ -23,4 +24,9 @@ public class Course(int id, string name, string description)
     public string Description { get; set; } = description;
 
     public bool IsDeleted { get; set; } = false; //false => true
+
+    public DateTime CreatedRow { get; set; }
+
+    //[ConcurrencyCheck]
+    public byte[] RowVersion { get; set; }
 }

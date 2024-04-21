@@ -5,7 +5,6 @@ namespace aspLearning.Entities;
 
 public class User
 {
-    [HiddenInput]
     public int Id { get; set; }
 
     [Remote(action: "CheckingUserName", controller: "Home", HttpMethod = "POST", ErrorMessage = "")]

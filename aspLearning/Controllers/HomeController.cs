@@ -17,6 +17,10 @@ namespace aspLearning.Controllers
             // {
             //     CreatedDate = 
             // })
+            // _context.Courses.Add(new Course()
+            // {
+            //     Name = ""
+            // });
             _context.SaveChanges();
             return View();
         }
