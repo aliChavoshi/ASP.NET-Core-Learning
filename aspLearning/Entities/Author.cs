@@ -8,14 +8,9 @@ public class Author
 {
     [Key] public int Id { get; set; }
 
-    [Range(10, 80, ErrorMessage = "")]
-    [Display(Name = "سن")] // asp-for="age"
-    [DefaultValue(10)]
-    public int Age { get; set; } = 10; //10:80
+    #region Relations
 
-    [EmailAddress(ErrorMessage = "")] public string Email { get; set; }
+    public List<Course> Courses { get; set; }
 
-    [DataType(DataType.DateTime)] public DateTime DateOfBirth { get; set; }
-
-    [InverseProperty("Author")] public List<Course> Courses { get; set; }
+    #endregion
 }

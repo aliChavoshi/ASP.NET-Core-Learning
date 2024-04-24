@@ -10,31 +10,18 @@ public class MyContext(DbContextOptions<MyContext> options) : DbContext(options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Course>()
-            .Property(x => x.Name)
-            .HasColumnName("s_name")
-            .HasColumnType("nvarchar")
-            .HasColumnOrder(2)
-            .IsRequired()
-            .HasMaxLength(150)
-            .HasDefaultValue("Ali Chavoshi");
+        //one to many => author
+        modelBuilder.Entity<Author>()
+            .HasMany(x => x.Courses) //course
+            .WithOne(x => x.Author)
+            .HasForeignKey(x => x.AuthorId);
 
-        modelBuilder.Entity<Course>()
-            .Property(x => x.CreatedRow)
-            .HasDefaultValueSql("GetDate()");
+        //one to many => course
+        // modelBuilder.Entity<Course>()
+        //     .HasOne(x => x.Author)
+        //     .WithMany(x => x.Courses)
+        //     .HasForeignKey(x => x.AuthorId);
 
-        modelBuilder.Entity<Course>()
-            // .HasIndex(x=>x.Name)
-            .HasAlternateKey(x => new {x.Id , x.AuthorId});
-
-
-        modelBuilder.Entity<Course>()
-            .Property(x => x.RowVersion)
-            .IsRowVersion();
-
-        modelBuilder.Entity<Course>()
-            .Property(x => x.Id)
-            .ValueGeneratedOnAdd();
 
         base.OnModelCreating(modelBuilder);
     }
