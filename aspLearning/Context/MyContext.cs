@@ -7,6 +7,9 @@ public class MyContext(DbContextOptions<MyContext> options) : DbContext(options)
 {
     //entities
     public DbSet<Course> Courses => Set<Course>();
+    public DbSet<Book> Books { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<BookCategory> BookCategories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,6 +31,21 @@ public class MyContext(DbContextOptions<MyContext> options) : DbContext(options)
             .WithOne(x => x.Student)
             .HasForeignKey<StudentAddress>(x => x.StudentId)
             .HasPrincipalKey<Student>(x => x.Id);
+
+
+        //many to many
+        modelBuilder.Entity<BookCategory>()
+            .HasKey(x => new { x.BookId, x.CategoryId });
+
+        modelBuilder.Entity<BookCategory>()
+            .HasOne(x => x.Book)
+            .WithMany(x => x.BookCategories)
+            .HasForeignKey(x => x.BookId);
+
+        modelBuilder.Entity<BookCategory>()
+            .HasOne(x => x.Category)
+            .WithMany(x => x.BookCategories)
+            .HasForeignKey(x => x.CategoryId);
 
 
         base.OnModelCreating(modelBuilder);
