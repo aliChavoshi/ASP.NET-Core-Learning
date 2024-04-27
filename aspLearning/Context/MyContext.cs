@@ -23,6 +23,13 @@ public class MyContext(DbContextOptions<MyContext> options) : DbContext(options)
         //     .HasForeignKey(x => x.AuthorId);
 
 
+        modelBuilder.Entity<Student>()
+            .HasOne(x => x.StudentAddress)
+            .WithOne(x => x.Student)
+            .HasForeignKey<StudentAddress>(x => x.StudentId)
+            .HasPrincipalKey<Student>(x => x.Id);
+
+
         base.OnModelCreating(modelBuilder);
     }
 }
