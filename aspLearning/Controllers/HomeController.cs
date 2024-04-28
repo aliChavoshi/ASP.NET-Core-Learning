@@ -3,14 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using aspLearning.Context;
 using aspLearning.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace aspLearning.Controllers;
 
-public class HomeController : Controller
+public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        
+        var books = context.Books.ToList();
         return View();
     }
 
