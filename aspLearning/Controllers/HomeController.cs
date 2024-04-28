@@ -11,8 +11,13 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        var books = context.Books.ToList();
+        var books = context.Books.Where(x => x.Level >= 1).ToList();
         return View();
+    }
+
+    public bool HandleLevel(Book book)
+    {
+        return book.Level > 1;
     }
 
     public IActionResult Privacy()

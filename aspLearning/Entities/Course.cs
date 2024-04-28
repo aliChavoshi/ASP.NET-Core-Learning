@@ -10,6 +10,7 @@ public class Course
 
     public int AuthorId { get; set; }
 
+    public int Level { get; set; }
 
     #region Relations
 
