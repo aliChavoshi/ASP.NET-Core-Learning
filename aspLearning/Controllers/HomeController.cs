@@ -11,10 +11,8 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        var books = context.Books
-            .Where(x => x.Level >= 1)
-            .OrderBy(x=>x.Title)
-            .ToList();
+        var courses = context.Courses.ToList();
+        var distinctCourses = courses.DistinctBy(x => x.Level).ToList();
         return View();
     }
 

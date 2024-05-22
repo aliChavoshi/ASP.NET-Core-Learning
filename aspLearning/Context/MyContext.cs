@@ -7,6 +7,7 @@ public class MyContext(DbContextOptions<MyContext> options) : DbContext(options)
 {
     //entities
     public DbSet<Course> Courses => Set<Course>();
+    public DbSet<Author> Author => Set<Author>();
     public DbSet<Book> Books { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<BookCategory> BookCategories { get; set; }

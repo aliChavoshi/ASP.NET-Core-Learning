@@ -7,10 +7,11 @@ namespace aspLearning.Entities;
 public class Author
 {
     [Key] public int Id { get; set; }
+    public string Name { get; set; }
 
     #region Relations
 
-    public List<Course> Courses { get; set; }
+    public List<Course> Courses { get; set; }   //select many
 
     #endregion
 }
