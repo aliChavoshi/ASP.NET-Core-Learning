@@ -11,14 +11,18 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        var courses = context.Courses.ToList();
-        var distinctCourses = courses.DistinctBy(x => x.Level).ToList();
+        var groups = context.Courses.GroupBy(x => x.Level).ToList();
+        foreach (var group in groups)
+        {
+            //group.Key;
+            foreach (var course in group)
+            {
+                // level == key == 1 => C# , Angular
+                // 
+                //course.Title
+            }
+        }
         return View();
-    }
-
-    public bool HandleLevel(Book book)
-    {
-        return book.Level > 1;
     }
 
     public IActionResult Privacy()
