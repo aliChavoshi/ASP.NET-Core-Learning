@@ -11,7 +11,10 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        IQueryable<Course> courses = context.Courses.Where(x => x.Level == 1).OrderBy(x => x.Title);
+        var courses = context.Courses
+            .Where(x => x.Level > 1)
+            .OrderBy(x => x.Title)
+            .ToList();
         return View();
     }
 

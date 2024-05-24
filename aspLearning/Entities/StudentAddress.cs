@@ -12,5 +12,5 @@ public class StudentAddress
     //relation   == foreign key
     //one-to-one
     public int StudentId { get; set; }
-    public Student Student { get; set; }
+    public virtual Student Student { get; set; }
 }

@@ -9,7 +9,8 @@ builder.Services.AddControllersWithViews();
 //connection to DB
 builder.Services.AddDbContext<MyContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")).UseLazyLoadingProxies();
+    
 });
 
 var app = builder.Build();

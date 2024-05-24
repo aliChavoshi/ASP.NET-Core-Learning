@@ -6,5 +6,5 @@ public class Category
     public string CategoryName { get; set; }
 
     //relations
-    public ICollection<BookCategory> BookCategories { get; set; }
+    public virtual ICollection<BookCategory> BookCategories { get; set; }
 }

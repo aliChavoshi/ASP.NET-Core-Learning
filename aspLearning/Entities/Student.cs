@@ -7,5 +7,5 @@ public class Student
     public string Name { get; set; }
 
     //relation
-    public StudentAddress StudentAddress { get; set; }
+    public virtual StudentAddress StudentAddress { get; set; }
 }

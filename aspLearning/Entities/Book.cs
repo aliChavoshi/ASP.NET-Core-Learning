@@ -8,5 +8,5 @@ public class Book
     public int Level { get; set; }
 
     //relations
-    public ICollection<BookCategory> BookCategories { get; set; }
+    public virtual ICollection<BookCategory> BookCategories { get; set; }
 }

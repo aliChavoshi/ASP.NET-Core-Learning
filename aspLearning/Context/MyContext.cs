@@ -1,4 +1,5 @@
-﻿using aspLearning.Entities;
+﻿using System.Runtime.CompilerServices;
+using aspLearning.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace aspLearning.Context;

@@ -16,8 +16,10 @@ public class Course
 
     #region Relations
 
-    public Author Author { get; set; }
-    public List<Tags> Tags { get; set; }
+    public virtual Author Author { get; set; }
+
+    //private List<Tags> _tags = null;
+    public virtual List<Tags> Tags { get; set; }
 
     #endregion
 }
