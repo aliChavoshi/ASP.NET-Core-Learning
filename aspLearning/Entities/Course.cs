@@ -17,6 +17,7 @@ public class Course
     #region Relations
 
     public Author Author { get; set; }
+    public List<Tags> Tags { get; set; }
 
     #endregion
 }
