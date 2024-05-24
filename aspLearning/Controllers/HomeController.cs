@@ -11,13 +11,11 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        //Inner join
-        var result = context.Courses.Join(context.Author,
-            c => c.AuthorId,
-            a => a.Id, ((course, author) => new
+        var result = context.Author.GroupJoin(context.Courses,
+            a => a.Id, c => c.AuthorId, ((author, courses) => new
             {
-                courseName = course.Title,
-                authorName = author.Name
+                authorName = author.Name,
+                count = courses.Count()
             })).ToList();
         return View();
     }
