@@ -11,17 +11,14 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        var groups = context.Courses.GroupBy(x => x.Level).ToList();
-        foreach (var group in groups)
-        {
-            //group.Key;
-            foreach (var course in group)
+        //Inner join
+        var result = context.Courses.Join(context.Author,
+            c => c.AuthorId,
+            a => a.Id, ((course, author) => new
             {
-                // level == key == 1 => C# , Angular
-                // 
-                //course.Title
-            }
-        }
+                courseName = course.Title,
+                authorName = author.Name
+            })).ToList();
         return View();
     }
 
