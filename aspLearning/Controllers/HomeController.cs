@@ -11,13 +11,7 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        //Cross Join
-        var result = context.Author?.SelectMany(a => context.Courses,
-            ((author, course) => new
-            {
-                auhtorName = author.Name,
-                courseName = course.Title
-            })).ToList();
+        IQueryable<Course> courses = context.Courses.Where(x => x.Level == 1).OrderBy(x => x.Title);
         return View();
     }
 
