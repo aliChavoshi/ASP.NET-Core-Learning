@@ -11,11 +11,12 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        var result = context.Author.GroupJoin(context.Courses,
-            a => a.Id, c => c.AuthorId, ((author, courses) => new
+        //Cross Join
+        var result = context.Author?.SelectMany(a => context.Courses,
+            ((author, course) => new
             {
-                authorName = author.Name,
-                count = courses.Count()
+                auhtorName = author.Name,
+                courseName = course.Title
             })).ToList();
         return View();
     }
