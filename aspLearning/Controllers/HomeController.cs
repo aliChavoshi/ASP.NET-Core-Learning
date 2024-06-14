@@ -11,15 +11,17 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        //Explicit loading
-        //proxy => 1
-        //1
-        var author = context.Author.SingleOrDefault(x => x.Id == 1);
-        context.Entry(author!).Collection(c => c.Courses)
-            .Query().Where(c => c.Level > 2).Load();
-
-        //2
-        context.Courses.Where(x => x.AuthorId == author!.Id && x.Level > 2).Load();
+        var course = new Course()
+        {
+            AuthorId = 1,
+            Level = 2,
+            Title = "new Course"
+        };
+        var beforeAdd = context.Entry(course).State;
+        context.Add(course);
+        var afterAdded = context.Entry(course).State;
+        context.SaveChanges();
+        var afterSaveChanges = context.Entry(course).State;
 
         return View();
     }
