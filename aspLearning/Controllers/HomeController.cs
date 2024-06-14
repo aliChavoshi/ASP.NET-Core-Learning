@@ -11,7 +11,11 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
+        //eager loading
         var courses = context.Courses
+            .Include(x => x.Author)
+            .Include(x => x.Tags)
+            //.ThenInclude(x=>x.Courses)
             .Where(x => x.Level > 1)
             .OrderBy(x => x.Title)
             .ToList();
