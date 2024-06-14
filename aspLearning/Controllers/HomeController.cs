@@ -11,14 +11,16 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        //eager loading
-        var courses = context.Courses
-            .Include(x => x.Author)
-            .Include(x => x.Tags)
-            //.ThenInclude(x=>x.Courses)
-            .Where(x => x.Level > 1)
-            .OrderBy(x => x.Title)
-            .ToList();
+        //Explicit loading
+        //proxy => 1
+        //1
+        var author = context.Author.SingleOrDefault(x => x.Id == 1);
+        context.Entry(author!).Collection(c => c.Courses)
+            .Query().Where(c => c.Level > 2).Load();
+
+        //2
+        context.Courses.Where(x => x.AuthorId == author!.Id && x.Level > 2).Load();
+
         return View();
     }
 
