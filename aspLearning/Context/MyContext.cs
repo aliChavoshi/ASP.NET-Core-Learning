@@ -19,7 +19,7 @@ public class MyContext(DbContextOptions<MyContext> options) : DbContext(options)
         modelBuilder.Entity<Author>()
             .HasMany(x => x.Courses) //course
             .WithOne(x => x.Author)
-            .HasForeignKey(x => x.AuthorId);
+            .HasForeignKey(x => x.AuthorId).OnDelete(DeleteBehavior.Cascade);
 
         //one to many => course
         // modelBuilder.Entity<Course>()

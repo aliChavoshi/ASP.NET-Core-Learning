@@ -11,13 +11,12 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        var course = context.Courses.Find(1);
-        course!.Title = "asp.net core gold";
-        var beforeAdd = context.Entry(course!).State;
-        context.Update(course!);
-        var afterAdded = context.Entry(course!).State;
+        var author = context.Author.Find(3);
+        var state = context.Entry(author).State;
+        context.Remove(author!);
+        var state1 = context.Entry(author).State;
         context.SaveChanges();
-        var afterSaveChanges = context.Entry(course!).State;
+        var state3 = context.Entry(author).State;
 
         return View();
     }
