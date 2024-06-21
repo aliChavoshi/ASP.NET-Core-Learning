@@ -9,6 +9,9 @@ builder.Services.AddControllersWithViews();
 //connection to DB
 builder.Services.AddDbContext<MyContext>(options =>
 {
+    //global
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
+    //
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")).UseLazyLoadingProxies(false);
 });
 

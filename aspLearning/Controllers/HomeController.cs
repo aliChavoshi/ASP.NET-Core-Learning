@@ -11,12 +11,13 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
-        var author = context.Author.Find(3);
-        var state = context.Entry(author).State;
-        context.Remove(author!);
-        var state1 = context.Entry(author).State;
-        context.SaveChanges();
-        var state3 = context.Entry(author).State;
+        //context.ChangeTracker.AutoDetectChangesEnabled = false;
+        //authors 
+        var result = context.Author.AsNoTrackingWithIdentityResolution()
+            .Where(x => x.Name == "ali").ToList();
+        
+        //courses
+        var course = context.Courses.Include(x => x.Author).ToList();
 
         return View();
     }
