@@ -10,7 +10,9 @@ builder.Services.AddControllersWithViews();
 //uwo
 //generic
 //
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+// builder.Services.AddTransient<ITeaService,TeaService>();
+// builder.Services.AddTransient<IRestaurantService, RestaurantService>();
 
 //connection to DB
 builder.Services.AddDbContext<MyContext>(options =>

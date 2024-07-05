@@ -6,15 +6,11 @@ using aspLearning.Interfaces;
 
 namespace aspLearning.Controllers;
 
-public class HomeController(IUnitOfWork uow)
+public class HomeController(ITeaService teaService, IRestaurantService restaurantService)
     : Controller
 {
     public IActionResult Index()
     {
-        var course = new Course();
-        uow.Rep<Course>().Add(course); // ?
-        uow.Rep<Author>().Add(new Author());
-
         return View();
     }
 
