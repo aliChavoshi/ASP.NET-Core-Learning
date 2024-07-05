@@ -4,15 +4,8 @@ using aspLearning.Entities;
 namespace aspLearning.Interfaces;
 
 //mix generic
-public interface ICourseRepository
+public interface ICourseRepository : IGenericRepository<Course>    
 {
-    void Add(Course course);
-    void Update(Course course);
-    void Delete(Course course);
-    void DeleteRange(IEnumerable<Course> courses);
-    Course GetById(int id);
-    List<Course> GetAll();
-    List<Course> GetAll(Expression<Func<Course, bool>> predicate);
-
+    //Custom
     List<Course> GetTopSellingCourses(int count);
 }

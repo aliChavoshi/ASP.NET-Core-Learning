@@ -1,10 +1,11 @@
 ﻿using System.Linq.Expressions;
 using aspLearning.Context;
 using aspLearning.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace aspLearning.Services;
 
-public class GenericRepository<TEntity>(MyContext myContext) : IGenericRepository<TEntity> where TEntity : class
+public class GenericRepository<TEntity>(DbContext myContext) : IGenericRepository<TEntity> where TEntity : class
 {
     public void Add(TEntity entity)
     {
