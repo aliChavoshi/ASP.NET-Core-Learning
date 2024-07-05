@@ -11,7 +11,7 @@ public class Author
 
     #region Relations
 
-    public virtual List<Course> Courses { get; set; }   //select many
+    public virtual List<Course> Courses { get; set; } //select many
 
     #endregion
 }
