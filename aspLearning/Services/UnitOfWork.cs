@@ -5,8 +5,10 @@ namespace aspLearning.Services;
 
 public class UnitOfWork(MyContext context) : IUnitOfWork
 {
-    public ICourseRepository Courses { get; } = new CourseRepository(context);
-    public IAuthorRepository Authors { get; } = new AuthorRepository(context);
+    public IGenericRepository<T> Rep<T>() where T : class
+    {
+        return new GenericRepository<T>(context);
+    }
 
     public int Complete()
     {

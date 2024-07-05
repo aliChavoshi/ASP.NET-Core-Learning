@@ -2,7 +2,6 @@
 
 public interface IUnitOfWork
 {
-    ICourseRepository Courses { get; }
-    IAuthorRepository Authors { get; }
+    IGenericRepository<T> Rep<T>() where T : class;
     int Complete();
 }

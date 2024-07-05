@@ -12,8 +12,8 @@ public class HomeController(IUnitOfWork uow)
     public IActionResult Index()
     {
         var course = new Course();
-        uow.Courses.Add(course); // ?
-        uow.Courses.SaveChanges();
+        uow.Rep<Course>().Add(course); // ?
+        uow.Rep<Author>().Add(new Author());
 
         return View();
     }
