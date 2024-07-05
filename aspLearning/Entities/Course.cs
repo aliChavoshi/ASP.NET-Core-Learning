@@ -14,6 +14,8 @@ public class Course
 
     public int Level { get; set; }
 
+    public float FullPrice { get; set; } = 0;
+
     #region Relations
 
     public virtual Author Author { get; set; }

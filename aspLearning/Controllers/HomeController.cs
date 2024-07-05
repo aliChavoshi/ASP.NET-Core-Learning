@@ -9,6 +9,10 @@ public class HomeController(MyContext context) : Controller
 {
     public IActionResult Index()
     {
+        //update
+        //add
+        //delete
+        //get
         return View();
     }
 

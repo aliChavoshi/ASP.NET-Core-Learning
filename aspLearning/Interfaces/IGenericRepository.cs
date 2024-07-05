@@ -1,6 +1,16 @@
-﻿namespace aspLearning.Interfaces;
+﻿using aspLearning.Entities;
+using System.Linq.Expressions;
 
-public interface IGenericRepository<TEntity> where TEntity : class
+namespace aspLearning.Interfaces;
+
+//T == Course , Author , ...
+public interface IGenericRepository<T> where T : class
 {
-    //CRUD
+    void Add(T entity);
+    void Update(T entity);
+    void Delete(T entity);
+    void DeleteRange(IEnumerable<T> entities);
+    T GetById(int id);
+    List<T> GetAll();
+    List<T> GetAll(Expression<Func<T, bool>> predicate);
 }

@@ -1,4 +1,5 @@
-﻿using aspLearning.Context;
+﻿using System.Linq.Expressions;
+using aspLearning.Context;
 using aspLearning.Entities;
 using aspLearning.Interfaces;
 
@@ -6,29 +7,49 @@ namespace aspLearning.Services;
 
 public class CourseRepository(MyContext myContext) : ICourseRepository
 {
-    public int Add(Course course)
+    //SOLID
+    //Interceptor
+    public void Add(Course course)
     {
         myContext.Add(course);
-        myContext.SaveChanges();
-        return course.Id;
     }
 
-    public Course Update(Course course)
+    public void Update(Course course)
     {
         myContext.Update(course);
-        myContext.SaveChanges();
-        return course;
     }
 
-    public void Delete(int id)
+    public void Delete(Course course)
     {
-        var entity = FindById(id);
-        myContext.Remove(entity);
-        myContext.SaveChanges();
+        myContext.Remove(course);
     }
 
-    public Course FindById(int id)
+    public void DeleteRange(IEnumerable<Course> courses)
     {
-        return myContext.Courses.Find(id);
+        myContext.RemoveRange(courses);
+    }
+
+    public Course GetById(int id)
+    {
+        return myContext!.Courses!.Find(id)!;
+    }
+
+    public List<Course> GetAll()
+    {
+        //Func == delegate
+        //Expression<Func<Course,Bool>>
+        return myContext.Courses.ToList();
+    }
+
+    public List<Course> GetAll(Expression<Func<Course, bool>> predicate)
+    {
+        //IQ ==> List
+        return myContext.Courses.Where(predicate).ToList();
+    }
+
+    public List<Course> GetTopSellingCourses(int count)
+    {
+        //count == take
+        throw new NotImplementedException();
     }
 }
