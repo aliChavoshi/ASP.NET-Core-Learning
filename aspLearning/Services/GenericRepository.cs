@@ -44,4 +44,9 @@ public class GenericRepository<TEntity>(DbContext myContext) : IGenericRepositor
     {
         return myContext.Set<TEntity>().Where(predicate).ToList();
     }
+
+    public bool SaveChanges()
+    {
+        return myContext.SaveChanges() > 0;
+    }
 }

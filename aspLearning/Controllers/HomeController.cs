@@ -1,18 +1,20 @@
 using aspLearning.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using aspLearning.Context;
+using aspLearning.Entities;
+using aspLearning.Interfaces;
 
 namespace aspLearning.Controllers;
 
-public class HomeController(MyContext context) : Controller
+public class HomeController(IUnitOfWork uow)
+    : Controller
 {
     public IActionResult Index()
     {
-        //update
-        //add
-        //delete
-        //get
+        var course = new Course();
+        uow.Courses.Add(course); // ?
+        uow.Courses.SaveChanges();
+
         return View();
     }
 

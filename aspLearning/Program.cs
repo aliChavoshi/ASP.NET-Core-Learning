@@ -7,7 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//TODO
+//uwo
+//generic
+//
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
 //connection to DB

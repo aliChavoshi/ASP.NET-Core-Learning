@@ -13,4 +13,5 @@ public interface IGenericRepository<T> where T : class
     T GetById(int id);
     List<T> GetAll();
     List<T> GetAll(Expression<Func<T, bool>> predicate);
+    bool SaveChanges();
 }
