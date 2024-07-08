@@ -11,30 +11,33 @@ using aspLearning.Interfaces;
 
 namespace aspLearning.Controllers;
 
-public class CoursesController(IUnitOfWork uow) : Controller
+public class CoursesController(IUnitOfWork uow, MyContext context) : Controller
 {
     // GET: Courses
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
-        var myContext = context.Courses.Include(c => c.Author);
-        return View(await myContext.ToListAsync());
+        var courses = uow.Rep<Course>().GetAll();
+        //change tracker
+        var authors = uow.Rep<Author>().GetAll();
+        return View(courses);
     }
 
     // GET: Courses/Details/5
-    public async Task<IActionResult> Details(int? id)
+    public IActionResult Details(int? id)
     {
         if (id == null)
         {
-            return NotFound();
+            //return View()
+            //return Ok();
+            return NotFound(); //404
         }
 
-        var course = await context.Courses
-            .Include(c => c.Author)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (course == null)
-        {
-            return NotFound();
-        }
+        var course = uow.Rep<Course>().GetById(id.Value);
+        if (course == null) return NotFound();
+
+        var author = uow.Rep<Author>().GetById(course.AuthorId);
+        if (author == null) return NotFound();
+        course.Author = author;
 
         return View(course);
     }
