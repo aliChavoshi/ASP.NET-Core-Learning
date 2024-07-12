@@ -1,5 +1,6 @@
 ﻿using aspLearning.Context;
 using aspLearning.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace aspLearning.Services;
 
@@ -14,4 +15,6 @@ public class UnitOfWork(MyContext context) : IUnitOfWork
     {
         return context.SaveChanges();
     }
+
+    public DbContext Context => context;
 }

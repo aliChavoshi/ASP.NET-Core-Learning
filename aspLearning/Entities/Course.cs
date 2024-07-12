@@ -6,15 +6,20 @@ namespace aspLearning.Entities;
 
 public class Course
 {
+    private string _course = "";
     [Key] public int Id { get; set; }
 
     [Display(Name = "Title")]
-    public string Title { get; set; }
+    // [Required(ErrorMessage = "Please insert value.")]
+    public string Title
+    {
+        get => _course;
+        set => _course = value.Trim();
+    }
 
     public int AuthorId { get; set; }
 
-    [Display(Name = "My level")]
-    public int Level { get; set; }
+    [Display(Name = "My level")] public int Level { get; set; }
 
     public float FullPrice { get; set; } = 0;
 

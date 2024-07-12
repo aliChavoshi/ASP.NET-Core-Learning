@@ -16,28 +16,21 @@ public class CoursesController(IUnitOfWork uow, MyContext context) : Controller
     // GET: Courses
     public IActionResult Index()
     {
-        var courses = uow.Rep<Course>().GetAll();
-        //change tracker
-        var authors = uow.Rep<Author>().GetAll();
+        var courses = uow.Context.Set<Course>()
+            .Include(x => x.Author)
+            .ToList();
         return View(courses);
     }
 
     // GET: Courses/Details/5
     public IActionResult Details(int? id)
     {
-        if (id == null)
-        {
-            //return View()
-            //return Ok();
-            return NotFound(); //404
-        }
+        if (id == null) return NotFound(); //404
 
-        var course = uow.Rep<Course>().GetById(id.Value);
+        var course = uow.Context.Set<Course>()
+            .Include(x => x.Author)
+            .FirstOrDefault(x => x.Id == id);
         if (course == null) return NotFound();
-
-        var author = uow.Rep<Author>().GetById(course.AuthorId);
-        if (author == null) return NotFound();
-        course.Author = author;
 
         return View(course);
     }
@@ -46,19 +39,26 @@ public class CoursesController(IUnitOfWork uow, MyContext context) : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        ViewData["AuthorId"] = new SelectList(context.Author, "Id", "Id");
+        var authors = uow.Rep<Author>().GetAll();
+        ViewData["AuthorId"] = new SelectList(authors, "Id", "Name");
         return View();
     }
 
-    // POST: Courses/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
-    public async Task<IActionResult> Create(Course course)
+    public IActionResult Create(Course course)
     {
-        context.Add(course);
-        await context.SaveChangesAsync();
-        //ViewData["AuthorId"] = new SelectList(context.Author, "Id", "Id", course.AuthorId);
+        //if (!ModelState.IsValid) return View(course);
+        //validation
+        if (uow.Rep<Course>().Any(x => x.Title == course.Title.Trim()))
+        {
+            var authors = uow.Rep<Author>().GetAll();
+            ViewData["AuthorId"] = new SelectList(authors, "Id", "Name");
+            ModelState.AddModelError(nameof(course.Title), "title is used by another user");
+            return View(course);
+        }
+
+        uow.Rep<Course>().Add(course);
+        uow.Complete();
         return RedirectToAction(nameof(Index));
     }
 

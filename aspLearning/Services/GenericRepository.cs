@@ -45,6 +45,13 @@ public class GenericRepository<TEntity>(DbContext myContext) : IGenericRepositor
         return myContext.Set<TEntity>().Where(predicate).ToList();
     }
 
+    public bool Any(Expression<Func<TEntity, bool>> predicate)
+    {
+        //first => 1000 , 1
+        //single     => 2 === exc
+        return myContext.Set<TEntity>().Any(predicate); //true , false
+    }
+
     public bool SaveChanges()
     {
         return myContext.SaveChanges() > 0;
