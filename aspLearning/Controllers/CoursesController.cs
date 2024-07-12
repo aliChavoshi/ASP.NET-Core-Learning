@@ -19,11 +19,10 @@ public class CoursesController(IUnitOfWork uow) : Controller
     }
 
     // GET: Courses/Details/5
-    [MyException]
+    // [MyException]
     public IActionResult Details(int? id)
     {
-        //Elmah
-        var num = int.Parse(id.ToString());
+        // var num = int.Parse(id.ToString());
         if (id == null) return NotFound();
 
         var course = uow.Context.Set<Course>()

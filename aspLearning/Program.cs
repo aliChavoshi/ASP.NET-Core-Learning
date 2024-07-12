@@ -1,6 +1,8 @@
 using aspLearning.Context;
 using aspLearning.Interfaces;
 using aspLearning.Services;
+using ElmahCore.Mvc;
+using ElmahCore.Sql;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,13 +17,20 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // builder.Services.AddTransient<IRestaurantService, RestaurantService>();
 
 //connection to DB
-builder.Services.AddDbContext<MyContext>(options =>
+builder.Services.AddDbContextPool<MyContext>(options =>
 {
     //global
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     //
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")).UseLazyLoadingProxies(false);
 });
+//Elmah Log
+builder.Services.AddElmah<SqlErrorLog>(opt =>
+{
+    opt.Path = "elmah";
+    opt.ConnectionString = "Server=.;Database=Log_DB;User ID=sa;Password=@dminiskr@;MultipleActiveResultSets=true;";
+});
+
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -34,6 +43,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseElmah();
 app.UseAuthorization();
 
 app.MapControllerRoute(
