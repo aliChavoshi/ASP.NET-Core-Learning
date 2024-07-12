@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using aspLearning.Entities;
 using aspLearning.Interfaces;
+using aspLearning.Attributes;
 
 namespace aspLearning.Controllers;
 
@@ -18,9 +19,12 @@ public class CoursesController(IUnitOfWork uow) : Controller
     }
 
     // GET: Courses/Details/5
+    [MyException]
     public IActionResult Details(int? id)
     {
-        if (id == null) return NotFound(); //404
+        //Elmah
+        var num = int.Parse(id.ToString());
+        if (id == null) return NotFound();
 
         var course = uow.Context.Set<Course>()
             .Include(x => x.Author)
@@ -78,7 +82,6 @@ public class CoursesController(IUnitOfWork uow) : Controller
 
         var entity = uow.Rep<Course>().GetById(course.Id);
         if (entity.Title != course.Title)
-        {
             if (uow.Rep<Course>().Any(x => x.Title == course.Title.Trim()))
             {
                 ViewData["AuthorId"] = new SelectList(uow.Rep<Author>().GetAll(),
@@ -86,7 +89,6 @@ public class CoursesController(IUnitOfWork uow) : Controller
                 ModelState.AddModelError("Title", "title is used by another user");
                 return View(course);
             }
-        }
 
         uow.Rep<Course>().Update(course);
         uow.Complete();
@@ -108,7 +110,8 @@ public class CoursesController(IUnitOfWork uow) : Controller
     }
 
     // POST: Courses/Delete/5
-    [HttpPost, ActionName("Delete")]
+    [HttpPost]
+    [ActionName("Delete")]
     public IActionResult DeleteConfirmed(int id)
     {
         var course = uow.Rep<Course>().GetById(id);
