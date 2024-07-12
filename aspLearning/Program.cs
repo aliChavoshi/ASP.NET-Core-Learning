@@ -18,7 +18,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddDbContext<MyContext>(options =>
 {
     //global
-    options.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     //
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")).UseLazyLoadingProxies(false);
 });

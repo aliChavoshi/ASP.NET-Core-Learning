@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using aspLearning.Context;
 using aspLearning.Entities;
 using aspLearning.Interfaces;
 
 namespace aspLearning.Controllers;
 
-public class CoursesController(IUnitOfWork uow, MyContext context) : Controller
+public class CoursesController(IUnitOfWork uow) : Controller
 {
     // GET: Courses
     public IActionResult Index()
@@ -63,97 +58,65 @@ public class CoursesController(IUnitOfWork uow, MyContext context) : Controller
     }
 
     // GET: Courses/Edit/5
-    public async Task<IActionResult> Edit(int? id)
+    public IActionResult Edit(int? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
+        if (id == null) return NotFound();
 
-        var course = await context.Courses.FindAsync(id);
-        if (course == null)
-        {
-            return NotFound();
-        }
+        var course = uow.Rep<Course>().GetById(id.Value);
+        if (course == null) return NotFound();
 
-        ViewData["AuthorId"] = new SelectList(context.Author, "Id", "Id", course.AuthorId);
+        //4,5,6,7,8
+        //5 => selected
+        ViewData["AuthorId"] = new SelectList(uow.Rep<Author>().GetAll(), "Id", "Name", course.AuthorId);
         return View(course);
     }
 
-    // POST: Courses/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Title,AuthorId,Level,FullPrice")] Course course)
+    public IActionResult Edit(int id, Course course)
     {
-        if (id != course.Id)
+        if (id != course.Id) return NotFound();
+
+        var entity = uow.Rep<Course>().GetById(course.Id);
+        if (entity.Title != course.Title)
         {
-            return NotFound();
+            if (uow.Rep<Course>().Any(x => x.Title == course.Title.Trim()))
+            {
+                ViewData["AuthorId"] = new SelectList(uow.Rep<Author>().GetAll(),
+                    "Id", "Name", course.AuthorId);
+                ModelState.AddModelError("Title", "title is used by another user");
+                return View(course);
+            }
         }
 
-        if (ModelState.IsValid)
-        {
-            try
-            {
-                context.Update(course);
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CourseExists(course.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        ViewData["AuthorId"] = new SelectList(context.Author, "Id", "Id", course.AuthorId);
-        return View(course);
+        uow.Rep<Course>().Update(course);
+        uow.Complete();
+        return RedirectToAction("Index");
     }
 
     // GET: Courses/Delete/5
-    public async Task<IActionResult> Delete(int? id)
+    public IActionResult Delete(int? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
+        if (id == null) return NotFound();
 
-        var course = await context.Courses
-            .Include(c => c.Author)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (course == null)
-        {
-            return NotFound();
-        }
+        var course = uow.Context.Set<Course>()
+            .Include(x => x.Author)
+            .FirstOrDefault(x => x.Id == id);
+
+        if (course == null) return NotFound();
 
         return View(course);
     }
 
     // POST: Courses/Delete/5
     [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public IActionResult DeleteConfirmed(int id)
     {
-        var course = await context.Courses.FindAsync(id);
-        if (course != null)
-        {
-            context.Courses.Remove(course);
-        }
+        var course = uow.Rep<Course>().GetById(id);
+        if (course == null) return RedirectToAction(nameof(Index));
 
-        await context.SaveChangesAsync();
+        uow.Rep<Course>().Delete(course);
+        uow.Complete();
+
         return RedirectToAction(nameof(Index));
-    }
-
-    private bool CourseExists(int id)
-    {
-        return context.Courses.Any(e => e.Id == id);
     }
 }
