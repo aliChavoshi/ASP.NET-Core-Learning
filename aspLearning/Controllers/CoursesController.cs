@@ -4,17 +4,24 @@ using Microsoft.EntityFrameworkCore;
 using aspLearning.Entities;
 using aspLearning.Interfaces;
 using aspLearning.Attributes;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace aspLearning.Controllers;
 
-public class CoursesController(IUnitOfWork uow) : Controller
+public class CoursesController(IUnitOfWork uow, IMemoryCache memoryCache) : Controller
 {
     // GET: Courses
     public IActionResult Index()
     {
+        if (memoryCache.TryGetValue("Course", out List<Course>? result))
+        {
+            return View(result);
+        }
+
         var courses = uow.Context.Set<Course>()
             .Include(x => x.Author)
             .ToList();
+        memoryCache.Set("Course", courses, TimeSpan.FromHours(1));
         return View(courses);
     }
 
@@ -57,6 +64,7 @@ public class CoursesController(IUnitOfWork uow) : Controller
 
         uow.Rep<Course>().Add(course);
         uow.Complete();
+        memoryCache.Remove("Course");
         return RedirectToAction(nameof(Index));
     }
 
