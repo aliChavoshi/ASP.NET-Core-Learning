@@ -11,6 +11,8 @@ namespace aspLearning.Controllers;
 public class CoursesController(IUnitOfWork uow, IMemoryCache memoryCache) : Controller
 {
     // GET: Courses
+    [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client, VaryByHeader = "User-Agent",
+        VaryByQueryKeys = new[] { "id", "name" })]
     public IActionResult Index()
     {
         if (memoryCache.TryGetValue("Course", out List<Course>? result))

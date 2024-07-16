@@ -31,6 +31,7 @@ builder.Services.AddElmah<SqlErrorLog>(opt =>
     opt.ConnectionString = "Server=.;Database=Log_DB;User ID=sa;Password=@dminiskr@;MultipleActiveResultSets=true;";
 });
 
+builder.Services.AddResponseCaching();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -44,6 +45,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseElmah();
+app.UseResponseCaching();
 app.UseAuthorization();
 
 app.MapControllerRoute(
