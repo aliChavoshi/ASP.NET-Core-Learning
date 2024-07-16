@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using aspLearning.Entities;
 using aspLearning.Interfaces;
 using aspLearning.Attributes;
+using aspLearning.Context;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace aspLearning.Controllers;
@@ -11,8 +13,9 @@ namespace aspLearning.Controllers;
 public class CoursesController(IUnitOfWork uow, IMemoryCache memoryCache) : Controller
 {
     // GET: Courses
-    [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client, VaryByHeader = "User-Agent",
-        VaryByQueryKeys = new[] { "id", "name" })]
+    // [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client, VaryByHeader = "User-Agent",
+    //     VaryByQueryKeys = new[] { "id", "name" })]
+    [OutputCache(Duration = 60, PolicyName = "", VaryByQueryKeys = new[] { "productId" })]   //web api
     public IActionResult Index()
     {
         if (memoryCache.TryGetValue("Course", out List<Course>? result))

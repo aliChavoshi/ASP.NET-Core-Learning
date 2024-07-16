@@ -32,6 +32,7 @@ builder.Services.AddElmah<SqlErrorLog>(opt =>
 });
 
 builder.Services.AddResponseCaching();
+builder.Services.AddOutputCache();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -46,6 +47,7 @@ app.UseRouting();
 
 app.UseElmah();
 app.UseResponseCaching();
+app.UseOutputCache();
 app.UseAuthorization();
 
 app.MapControllerRoute(
