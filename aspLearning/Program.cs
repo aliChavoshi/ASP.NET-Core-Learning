@@ -33,6 +33,16 @@ builder.Services.AddElmah<SqlErrorLog>(opt =>
 
 builder.Services.AddResponseCaching();
 builder.Services.AddOutputCache();
+//Redis Configuration
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost";
+    options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions()
+    {
+        AbortOnConnectFail = true,
+        EndPoints = { options.Configuration }
+    };
+});
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

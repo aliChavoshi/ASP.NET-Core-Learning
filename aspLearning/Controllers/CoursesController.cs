@@ -5,29 +5,30 @@ using aspLearning.Entities;
 using aspLearning.Interfaces;
 using aspLearning.Attributes;
 using aspLearning.Context;
+using aspLearning.Extensions;
 using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace aspLearning.Controllers;
 
-public class CoursesController(IUnitOfWork uow, IMemoryCache memoryCache) : Controller
+public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Controller
 {
-    // GET: Courses
-    // [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client, VaryByHeader = "User-Agent",
-    //     VaryByQueryKeys = new[] { "id", "name" })]
-    [OutputCache(Duration = 60, PolicyName = "", VaryByQueryKeys = new[] { "productId" })]   //web api
-    public IActionResult Index()
-    {
-        if (memoryCache.TryGetValue("Course", out List<Course>? result))
-        {
-            return View(result);
-        }
+    public const string CacheName = "Courses";
 
-        var courses = uow.Context.Set<Course>()
-            .Include(x => x.Author)
-            .ToList();
-        memoryCache.Set("Course", courses, TimeSpan.FromHours(1));
-        return View(courses);
+    public async Task<IActionResult> Index()
+    {
+        var cacheOptions = new DistributedCacheEntryOptions()
+            .SetAbsoluteExpiration(TimeSpan.FromMinutes(20))
+            .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+        var result = await cache.GetOrSetAsync<List<Course>>(CacheName, () =>
+        {
+            return Task.FromResult(uow.Context.Set<Course>()
+                .Include(x => x.Author)
+                .ToList());
+        },cacheOptions);
+
+        return View(result);
     }
 
     // GET: Courses/Details/5
@@ -57,8 +58,6 @@ public class CoursesController(IUnitOfWork uow, IMemoryCache memoryCache) : Cont
     [HttpPost]
     public IActionResult Create(Course course)
     {
-        //if (!ModelState.IsValid) return View(course);
-        //validation
         if (uow.Rep<Course>().Any(x => x.Title == course.Title.Trim()))
         {
             var authors = uow.Rep<Author>().GetAll();
@@ -69,7 +68,7 @@ public class CoursesController(IUnitOfWork uow, IMemoryCache memoryCache) : Cont
 
         uow.Rep<Course>().Add(course);
         uow.Complete();
-        memoryCache.Remove("Course");
+        cache.Remove(CacheName);
         return RedirectToAction(nameof(Index));
     }
 
