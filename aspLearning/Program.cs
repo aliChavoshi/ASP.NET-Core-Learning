@@ -64,12 +64,20 @@ app.UseElmah();
 
 app.Run(async context =>
 {
-    //Response Header
-    context.Response.ContentType = "text/html";
-    context.Response.Headers["myKey"] = "Ali Chavoshi";
-    context.Response.Headers["server"] = "my server";
-    //context.Response.StatusCode = 400;
-    await context.Response.WriteAsync("<p>Hello World!</p>");
+    context.Response.Headers.ContentType = "text/html";
+    if (context.Request.Method == "GET")
+    {
+        if (context.Request.Query.ContainsKey("id"))
+        {
+            //key => list values
+            //id = 1
+            //id = 5
+            //id => 1,5 ======= string (stringValues)
+            var id = context.Request.Query["id"];
+            await context.Response.WriteAsync($"<p>id : {id}</p>");
+            //HTTP request header 
+        }
+    }
 });
 
 app.Run();
