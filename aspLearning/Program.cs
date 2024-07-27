@@ -3,6 +3,7 @@ using aspLearning.Interfaces;
 using aspLearning.Services;
 using ElmahCore.Mvc;
 using ElmahCore.Sql;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,20 +65,10 @@ app.UseElmah();
 
 app.Run(async context =>
 {
-    context.Response.Headers.ContentType = "text/html";
-    if (context.Request.Method == "GET")
-    {
-        if (context.Request.Query.ContainsKey("id"))
-        {
-            //key => list values
-            //id = 1
-            //id = 5
-            //id => 1,5 ======= string (stringValues)
-            var id = context.Request.Query["id"];
-            await context.Response.WriteAsync($"<p>id : {id}</p>");
-            //HTTP request header 
-        }
-    }
+    //request (Body)
+    var reader = new StreamReader(context.Request.Body);
+    var body = await reader.ReadToEndAsync();
+    var data = QueryHelpers.ParseQuery(body);
 });
 
 app.Run();
