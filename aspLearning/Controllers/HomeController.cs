@@ -6,6 +6,8 @@ namespace aspLearning.Controllers;
 
 public class HomeController : Controller
 {
+    //Request => client => server 
+    //Response  => server => client
     [HttpGet]
     public IActionResult Index()
     {

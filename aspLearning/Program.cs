@@ -52,16 +52,22 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-
 app.UseRouting();
-
-app.UseElmah();
 app.UseResponseCaching();
 app.UseOutputCache();
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+//add custom middlewares
+app.UseElmah();
+
+app.Run(async context =>
+{
+    //Response Header
+    context.Response.ContentType = "text/html";
+    context.Response.StatusCode = 400;
+    await context.Response.WriteAsync("<p>Hello World!</p>");
+});
 
 app.Run();
