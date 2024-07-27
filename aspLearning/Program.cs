@@ -66,7 +66,9 @@ app.Run(async context =>
 {
     //Response Header
     context.Response.ContentType = "text/html";
-    context.Response.StatusCode = 400;
+    context.Response.Headers["myKey"] = "Ali Chavoshi";
+    context.Response.Headers["server"] = "my server";
+    //context.Response.StatusCode = 400;
     await context.Response.WriteAsync("<p>Hello World!</p>");
 });
 
