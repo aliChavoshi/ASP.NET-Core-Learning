@@ -1,5 +1,6 @@
 using aspLearning.Context;
 using aspLearning.Interfaces;
+using aspLearning.Middleware;
 using aspLearning.Services;
 using ElmahCore.Mvc;
 using ElmahCore.Sql;
@@ -34,6 +35,7 @@ builder.Services.AddElmah<SqlErrorLog>(opt =>
 
 builder.Services.AddResponseCaching();
 builder.Services.AddOutputCache();
+builder.Services.AddTransient<CustomMiddleware>(); //present
 //Redis Configuration
 builder.Services.AddStackExchangeRedisCache(options =>
 {
@@ -62,13 +64,24 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 //add custom middlewares
 app.UseElmah();
+         
+app.Use(async (context, @delegate) =>
+{
+    await context.Response.WriteAsync("Middleware-1 ");
+    await @delegate(context);
+    await context.Response.WriteAsync("after-Middleware-1 ");
+    //after logic
+});
+
+//custom middleware
+//app.UseMiddleware<CustomMiddleware>();
+app.UseMyCustomMiddleware();
+app.UseMiddleware<ConventionalMiddleware>(); //TODO : convert to extension
 
 app.Run(async context =>
 {
-    //request (Body)
-    var reader = new StreamReader(context.Request.Body);
-    var body = await reader.ReadToEndAsync();
-    var data = QueryHelpers.ParseQuery(body);
+    await context.Response.WriteAsync("Middleware-3 ");
+    //end of the middlewares 
 });
 
 app.Run();
