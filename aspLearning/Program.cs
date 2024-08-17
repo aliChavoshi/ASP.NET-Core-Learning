@@ -62,6 +62,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 //add custom middlewares
 app.UseElmah();
          
@@ -72,7 +73,15 @@ app.Use(async (context, @delegate) =>
     await context.Response.WriteAsync("after-Middleware-1 ");
     //after logic
 });
-
+app.UseWhen(context => context.Request.Query.ContainsKey("username"), applicationBuilder =>
+{
+    applicationBuilder.Use(async (context, @delegate) =>
+    {
+        //middleware
+        await context.Response.WriteAsync("called useWhen");
+        await @delegate();
+    });
+});
 //custom middleware
 //app.UseMiddleware<CustomMiddleware>();
 app.UseMyCustomMiddleware();
