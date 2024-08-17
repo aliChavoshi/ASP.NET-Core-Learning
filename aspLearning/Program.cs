@@ -53,24 +53,24 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
-
+//request1 => |routing| => endpoint1
+//request2 => |routing| => endpoint2
+//index
+//shops
+//orders
 app.UseStaticFiles();
-app.UseRouting();
+app.UseRouting(); //1
 app.UseResponseCaching();
 app.UseOutputCache();
 app.UseAuthorization();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//add custom middlewares
+#region CustomMiddleware
 app.UseElmah();
-         
 app.Use(async (context, @delegate) =>
 {
-    await context.Response.WriteAsync("Middleware-1 ");
+    //await context.Response.WriteAsync("Middleware-1 ");
     await @delegate(context);
-    await context.Response.WriteAsync("after-Middleware-1 ");
+    //await context.Response.WriteAsync("after-Middleware-1 ");
     //after logic
 });
 app.UseWhen(context => context.Request.Query.ContainsKey("username"), applicationBuilder =>
@@ -78,19 +78,37 @@ app.UseWhen(context => context.Request.Query.ContainsKey("username"), applicatio
     applicationBuilder.Use(async (context, @delegate) =>
     {
         //middleware
-        await context.Response.WriteAsync("called useWhen");
+        //await context.Response.WriteAsync("called useWhen");
         await @delegate();
     });
 });
 //custom middleware
 //app.UseMiddleware<CustomMiddleware>();
-app.UseMyCustomMiddleware();
-app.UseMiddleware<ConventionalMiddleware>(); //TODO : convert to extension
+//app.UseMyCustomMiddleware();
+//app.UseMiddleware<ConventionalMiddleware>(); //TODO : convert to extension
 
+#endregion
+
+//endpoints
+//2
+app.UseEndpoints(endpoints =>
+{
+    //map == post , put , get
+    endpoints.MapGet("map1", async (context) =>
+    {
+        await context.Response.WriteAsync("In Map-1");
+    });
+    endpoints.MapPost("map2", async (context) =>
+    {
+        await context.Response.WriteAsync("In Map-2");
+    });
+});
 app.Run(async context =>
 {
     await context.Response.WriteAsync("Middleware-3 ");
-    //end of the middlewares 
 });
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
