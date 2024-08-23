@@ -6,6 +6,7 @@ using ElmahCore.Mvc;
 using ElmahCore.Sql;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging.Signing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,19 +61,19 @@ if (!app.Environment.IsDevelopment())
 //shops
 //orders
 app.UseStaticFiles();
-app.Use(async (context, func) =>
-{
-    var endPoint = context.GetEndpoint();
-    await context.Response.WriteAsync($"before :{endPoint}");
-    await func();
-});
+// app.Use(async (context, func) =>
+// {
+//     var endPoint = context.GetEndpoint();
+//     await context.Response.WriteAsync($"before :{endPoint}");
+//     await func();
+// });
 app.UseRouting(); //1
-app.Use(async (context, func) =>
-{
-    var endPoint = context.GetEndpoint();
-    await context.Response.WriteAsync($"after :{endPoint}");
-    await func();
-});
+// app.Use(async (context, func) =>
+// {
+//     var endPoint = context.GetEndpoint();
+//     await context.Response.WriteAsync($"after :{endPoint}");
+//     await func();
+// });
 app.UseResponseCaching();
 app.UseOutputCache();
 app.UseAuthorization();
@@ -111,17 +112,27 @@ app.UseWhen(context => context.Request.Query.ContainsKey("username"), applicatio
 //employee/profile/Ali => employee/profile/{name}
 app.UseEndpoints(endpoints =>
 {
+    endpoints.Map("files/{filename}.{extension}", async context =>
+    {
+        var fileName = context.Request.RouteValues["filename"];
+        var extension = context.Request.RouteValues["extension"];
+        await context.Response.WriteAsync($"file : {fileName}.{extension}");
+    });
+    endpoints.Map("employee/profile/{title=AliChavoshi}", async context =>
+    {
+        var title = context.Request.RouteValues["title"];
+        await context.Response.WriteAsync($"title of employee : {title}");
+    });
+    endpoints.Map("products/details/{id:int?}", async context =>
+    {
+        var id = context.Request.RouteValues["id"] ?? 5;
+        await context.Response.WriteAsync($"id : {id}");
+    });
     //map == post , put , get
-    endpoints.MapGet("map1", async (context) =>
-    {
-        await context.Response.WriteAsync("In Map-1");
-    });
-    endpoints.MapPost("map2", async (context) =>
-    {
-        await context.Response.WriteAsync("In Map-2");
-    });
+    endpoints.MapGet("map1", async (context) => { await context.Response.WriteAsync("In Map-1"); });
+    endpoints.MapPost("map2", async (context) => { await context.Response.WriteAsync("In Map-2"); });
 });
-app.Run(async context => { await context.Response.WriteAsync("Middleware-3 "); });
+app.Run(async context => { await context.Response.WriteAsync("Middleware-3 "); }); //end middleware
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
