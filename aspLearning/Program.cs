@@ -53,18 +53,32 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
 //request1 => |routing| => endpoint1
 //request2 => |routing| => endpoint2
 //index
 //shops
 //orders
 app.UseStaticFiles();
+app.Use(async (context, func) =>
+{
+    var endPoint = context.GetEndpoint();
+    await context.Response.WriteAsync($"before :{endPoint}");
+    await func();
+});
 app.UseRouting(); //1
+app.Use(async (context, func) =>
+{
+    var endPoint = context.GetEndpoint();
+    await context.Response.WriteAsync($"after :{endPoint}");
+    await func();
+});
 app.UseResponseCaching();
 app.UseOutputCache();
 app.UseAuthorization();
 
 #region CustomMiddleware
+
 app.UseElmah();
 app.Use(async (context, @delegate) =>
 {
@@ -91,6 +105,10 @@ app.UseWhen(context => context.Request.Query.ContainsKey("username"), applicatio
 
 //endpoints
 //2
+
+//URL(name , filename) => get => route parameter
+//files/new.txt => files/{filename}.{extension}
+//employee/profile/Ali => employee/profile/{name}
 app.UseEndpoints(endpoints =>
 {
     //map == post , put , get
@@ -103,10 +121,7 @@ app.UseEndpoints(endpoints =>
         await context.Response.WriteAsync("In Map-2");
     });
 });
-app.Run(async context =>
-{
-    await context.Response.WriteAsync("Middleware-3 ");
-});
+app.Run(async context => { await context.Response.WriteAsync("Middleware-3 "); });
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
