@@ -21,6 +21,21 @@ public class HomeController : Controller
         return new FileContentResult(bytes, "application/pdf");
     }
 
+    [Route("Test")]
+    public IActionResult Test(int id)
+    {
+        return new BadRequestResult();
+        return BadRequest(); //400
+
+        return new NotFoundResult();
+        return NotFound(); //404
+
+        return new UnauthorizedResult();
+        return Unauthorized(); //401
+
+        return StatusCode(404, "Not Found");
+    }
+
     [Route("about")]
     public string About()
     {
