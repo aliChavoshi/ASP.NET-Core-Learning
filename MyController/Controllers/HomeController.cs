@@ -7,18 +7,13 @@ namespace MyController.Controllers;
 public class HomeController : Controller
 {
     [Route("/")]
-    [Route("Index")]
-    public IActionResult Index()
+    [Route("Index/{pageId:int?}/{searchBy}")]
+    //Query String : http://localhost:5183/Index?pageId=10&searchBy=AliChavoshi
+    //Route Data : http://localhost:5183/index/10/alichavoshi
+    //Mix : http://localhost:5183/index/10?searchBy=alichavoshi
+    public IActionResult Index([FromRoute] int? pageId, [FromQuery] string? searchBy)
     {
-        //1. Virtual  : wwwroot : input
-        return new VirtualFileResult("/sample.pdf", "application/pdf");
-        return File("/sample.pdf", "application/pdf");
-        //2. Physical : out of your project
-        return new PhysicalFileResult(@"c:/myproject/aspnetcore/sample.pdf", "application/pdf");
-        return PhysicalFile(@"c:/myproject/aspnetcore/sample.pdf", "application/pdf");
-        //3. File Content Result : out
-        byte[] bytes = System.IO.File.ReadAllBytes(@"c:/myproject/aspnetcore/sample.pdf");
-        return new FileContentResult(bytes, "application/pdf");
+        return Content($"pageId : {pageId} - searchBy : {searchBy}");
     }
 
     [Route("Test")]
