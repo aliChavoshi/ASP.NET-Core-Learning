@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MyController.Controllers;
 
@@ -6,9 +7,16 @@ public class HomeController : Controller
 {
     [Route("/")]
     [Route("Index")]
-    public string Index()
+    public ContentResult Index()
     {
-        return "Ali Chavoshi";
+        //Result , New
+        // return new ContentResult()
+        // {
+        //       ContentType = "text/plain",
+        //       StatusCode = 200,
+        //       Content = "This in Index View"
+        // };
+        return Content("<p>this in content</p>", "text/html", Encoding.UTF8);
     }
 
     [Route("about")]
