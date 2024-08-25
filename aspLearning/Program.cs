@@ -123,7 +123,13 @@ app.UseEndpoints(endpoints =>
         var title = context.Request.RouteValues["title"];
         await context.Response.WriteAsync($"title of employee : {title}");
     });
-    endpoints.Map("products/details/{id:int?}", async context =>
+    //ture
+    //guid : 059D6025-996A-4276-9E96-AC0094B6B3C6
+    //ALi
+    //10 12 13 10000
+    //1 2 -1 100
+    //a-1 A-Z
+    endpoints.Map("products/details/{year:int:min(1900):max(2030)}", async context =>
     {
         var id = context.Request.RouteValues["id"] ?? 5;
         await context.Response.WriteAsync($"id : {id}");
