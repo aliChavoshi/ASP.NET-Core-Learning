@@ -16,7 +16,7 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Contr
 {
     public const string CacheName = "Courses";
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string name)
     {
         var cacheOptions = new DistributedCacheEntryOptions()
             .SetAbsoluteExpiration(TimeSpan.FromMinutes(20))
@@ -26,7 +26,7 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Contr
             return Task.FromResult(uow.Context.Set<Course>()
                 .Include(x => x.Author)
                 .ToList());
-        },cacheOptions);
+        }, cacheOptions);
 
         return View(result);
     }
@@ -69,7 +69,11 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Contr
         uow.Rep<Course>().Add(course);
         uow.Complete();
         cache.Remove(CacheName);
-        return RedirectToAction(nameof(Index));
+        return new RedirectToActionResult("Index", "Courses", new { name = "Ali" });
+        // return new LocalRedirectResult($"Courses/Index/");
+        // return LocalRedirect("Index");
+        // return RedirectToAction("Index", new { name = "Ali" });
+        // return Redirect("");
     }
 
     // GET: Courses/Edit/5
