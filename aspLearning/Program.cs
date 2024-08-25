@@ -6,9 +6,13 @@ using ElmahCore.Mvc;
 using ElmahCore.Sql;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using NuGet.Packaging.Signing;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+{
+    WebRootPath = "NewFolder"
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -60,7 +64,11 @@ if (!app.Environment.IsDevelopment())
 //index
 //shops
 //orders
-app.UseStaticFiles();
+app.UseStaticFiles(); //access to NewFolder
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "MyWebRoot"))
+}); //access to MyWebRoot
 // app.Use(async (context, func) =>
 // {
 //     var endPoint = context.GetEndpoint();
