@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using MyController.Entities;
 
 namespace MyController.Controllers;
 
@@ -7,16 +8,17 @@ public class HomeController : Controller
 {
     [Route("/")]
     [Route("Index")]
-    public ContentResult Index()
+    public IActionResult Index()
     {
-        //Result , New
-        // return new ContentResult()
-        // {
-        //       ContentType = "text/plain",
-        //       StatusCode = 200,
-        //       Content = "This in Index View"
-        // };
-        return Content("<p>this in content</p>", "text/html", Encoding.UTF8);
+        //1. Virtual  : wwwroot : input
+        return new VirtualFileResult("/sample.pdf", "application/pdf");
+        return File("/sample.pdf", "application/pdf");
+        //2. Physical : out of your project
+        return new PhysicalFileResult(@"c:/myproject/aspnetcore/sample.pdf", "application/pdf");
+        return PhysicalFile(@"c:/myproject/aspnetcore/sample.pdf", "application/pdf");
+        //3. File Content Result : out
+        byte[] bytes = System.IO.File.ReadAllBytes(@"c:/myproject/aspnetcore/sample.pdf");
+        return new FileContentResult(bytes, "application/pdf");
     }
 
     [Route("about")]
