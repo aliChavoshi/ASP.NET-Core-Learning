@@ -56,7 +56,8 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Contr
     }
 
     [HttpPost]
-    public IActionResult Create(Course course)
+    public IActionResult Create(
+        [Bind(nameof(Course.AuthorId), nameof(Course.Level), nameof(Course.Title))] Course course)
     {
         if (uow.Rep<Course>().Any(x => x.Title == course.Title.Trim()))
         {

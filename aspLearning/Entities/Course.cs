@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,7 @@ namespace aspLearning.Entities;
 public class Course
 {
     private string _course = "";
-    [Key] public int Id { get; set; }
+    [Key] [BindNever] public int Id { get; set; }
 
     [Display(Name = "عنوان")]
     [Required(ErrorMessage = "لطفا مقدار {0} را وارد کنید")] //validators
@@ -22,8 +23,7 @@ public class Course
         set => _course = value.Trim();
     }
 
-    [ValidateNever]
-    public int AuthorId { get; set; }
+    [ValidateNever] public int AuthorId { get; set; }
 
     [Display(Name = "My level")] public int Level { get; set; }
 
