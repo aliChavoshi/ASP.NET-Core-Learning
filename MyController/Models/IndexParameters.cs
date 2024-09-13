@@ -5,5 +5,5 @@ namespace MyController.Models;
 public class IndexParameters
 {
     [FromQuery] public int? PageId { get; set; } = 10;
-    [FromQuery] public string? SearchBy { get; set; }
+    [FromRoute] public string? SearchBy { get; set; }
 }

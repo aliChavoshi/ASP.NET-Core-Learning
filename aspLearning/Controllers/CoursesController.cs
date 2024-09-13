@@ -66,6 +66,14 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Contr
             return View(course);
         }
 
+        if (!ModelState.IsValid)
+        {
+            //Please insert value
+            //min length is 10
+            var errors = string.Join("\n", ModelState.Values.SelectMany(v => v.Errors).Select(err => err.ErrorMessage));
+            return BadRequest(errors);
+        }
+
         uow.Rep<Course>().Add(course);
         uow.Complete();
         cache.Remove(CacheName);
