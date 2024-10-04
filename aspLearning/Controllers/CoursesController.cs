@@ -9,6 +9,7 @@ using aspLearning.Extensions;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using aspLearning.Binders;
 
 namespace aspLearning.Controllers;
 
@@ -57,7 +58,8 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Contr
 
     [HttpPost]
     public IActionResult Create(
-        [Bind(nameof(Course.AuthorId), nameof(Course.Level), nameof(Course.Title))] Course course)
+        [Bind(nameof(Course.AuthorId), nameof(Course.Level), nameof(Course.Title))]
+        Course course)
     {
         if (uow.Rep<Course>().Any(x => x.Title == course.Title.Trim()))
         {
@@ -100,7 +102,7 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Contr
     }
 
     [HttpPost]
-    public IActionResult Edit(int id, Course course)
+    public IActionResult Edit(Course course, int id)
     {
         if (id != course.Id) return NotFound();
 
