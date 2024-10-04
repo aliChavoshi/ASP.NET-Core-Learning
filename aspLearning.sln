@@ -10,7 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyController", "MyController\MyController.csproj", "{7F848851-F384-4F08-9AD4-65BA3027271E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyController", "MyController\MyController.csproj", "{7F848851-F384-4F08-9AD4-65BA3027271E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC", "MVC\MVC.csproj", "{3FE03581-104C-4F3C-A5F0-745984EC743F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{7F848851-F384-4F08-9AD4-65BA3027271E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F848851-F384-4F08-9AD4-65BA3027271E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F848851-F384-4F08-9AD4-65BA3027271E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FE03581-104C-4F3C-A5F0-745984EC743F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FE03581-104C-4F3C-A5F0-745984EC743F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FE03581-104C-4F3C-A5F0-745984EC743F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FE03581-104C-4F3C-A5F0-745984EC743F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
