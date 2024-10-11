@@ -9,7 +9,8 @@ public class HomeController(ILogger<HomeController> logger) : Controller
     //http://localhost:5122/Home/Index
     public IActionResult Index()
     {
-        return View("Index"); //index.cshtml
+        return View("Index"); 
+        //index.cshtml
         //return new ViewResult();
     }
 
