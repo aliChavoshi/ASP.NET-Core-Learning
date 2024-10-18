@@ -6,16 +6,21 @@ namespace MVC.Controllers;
 
 public class HomeController(ILogger<HomeController> logger) : Controller
 {
-    //http://localhost:5122/Home/Index
     public IActionResult Index()
     {
-        ViewData["title"] = "ali"; //Dictionary
-        return View("Index"); 
+        return View("Index");
     }
 
     public IActionResult Privacy()
     {
-        //ViewBag.name = "asp.net core from Daneshjooyar";
+        ViewData["CountryTitle"] = "Countries";
+        ViewData["Countries"] = new List<string>()
+        {
+            "Paris",
+            "Kashan",
+            "Tehran",
+            "Karaj"
+        };
         return View();
     }
 

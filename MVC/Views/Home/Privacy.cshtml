@@ -1,18 +1,12 @@
-﻿@using MVC.Entities
-@{
+﻿@{
     ViewData["Title"] = "Privacy Policy Ali"; //Key - Value => Dictionary(key,value)
 }
 
-<h1>Header</h1>
 <div>
-    <p>Body</p>
-</div>
+    <partial name="_PartialView"/>
+    @await Html.PartialAsync("_PartialView")
+    @{
+        await Html.RenderPartialAsync("_PartialView");
 
-<div>
-
-    @section footer
-    {
-        <h1>This is My Footer</h1>
     }
-
 </div>

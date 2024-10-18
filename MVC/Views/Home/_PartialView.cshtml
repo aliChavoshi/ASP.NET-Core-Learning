@@ -1,0 +1,7 @@
+﻿<header>
+    <h3>@ViewData["CountryTitle"]</h3>
+</header>
+@foreach (var item in (List<string>?)ViewData["Countries"]!)
+{
+    <p>@item</p>
+}
