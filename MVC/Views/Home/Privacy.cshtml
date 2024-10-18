@@ -7,7 +7,9 @@
     //var persons = (List<Person>?)ViewData["Persons"];
 }
 <h1>@ViewData["Title"]</h1>
-
+<h2>
+    @ViewBag?.name?.ToString()
+</h2>
 <p>@obj</p>
 @Html.Raw(alertMessage) @* /without encoding *@
 <p>@GetAge()</p>

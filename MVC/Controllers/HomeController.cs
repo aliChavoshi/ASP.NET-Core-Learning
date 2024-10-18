@@ -15,6 +15,7 @@ public class HomeController(ILogger<HomeController> logger) : Controller
 
     public IActionResult Privacy()
     {
+        //ViewBag.name = "asp.net core from Daneshjooyar";
         return View();
     }
 
