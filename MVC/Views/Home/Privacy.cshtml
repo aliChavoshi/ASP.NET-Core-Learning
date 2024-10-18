@@ -5,10 +5,12 @@
     var alertMessage = $"<script>alert('{obj} Ali Chavoshi')</script>";
     var persons = ViewData["Persons"] as List<Person>;
     //var persons = (List<Person>?)ViewData["Persons"];
+    Layout = "_Layout";
 }
 <h1>@ViewData["Title"]</h1>
 <h2>
-    @ViewBag?.name?.ToString()
+    @ViewBag?.name?.ToString() 
+    <a ></a>
 </h2>
 <p>@obj</p>
 @Html.Raw(alertMessage) @* /without encoding *@
