@@ -1,8 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
+    var obj = "asp.net core"; //HTML Code
+    var alertMessage = $"<script>alert('{obj} Ali Chavoshi')</script>";
 }
 <h1>@ViewData["Title"]</h1>
-
+   
+<p>@obj</p>
+@Html.Raw(alertMessage)     @* /without encoding *@
 <p>@GetAge()</p> 
 <p>@GetName()</p>
  
