@@ -1,64 +1,25 @@
 ﻿@using MVC.Enums
 @{
     ViewData["Title"] = "Home Page";
-    //C#  Code 
-    var title = "ASP.NET CORE";
-    var available = true;
-    var value = "A";
-    var gender = GenderEnum.Female;
-    //Lists
-    var numbers = new List<int>();
-    //Literals
-    int number = 100; //
-    double pi = 3.14;
-    string greeting = "Hello , World";
-    char letter = 'A';
-    bool isActive = false;
-    object obj = null;
-    int hexValue = 0xff; //hex | 10
-    long largNumber = 123456789L;
-    decimal price = 19.99M; //price $
+    // //C#  Code 
+    // var title = "ASP.NET CORE";
+    // var available = true;
+    // var value = "A";
+    // var gender = GenderEnum.Female;
+    // //Lists
+    // var numbers = new List<int>();
+    // //Literals
+    // int number = 100; //
+    // double pi = 3.14;
+    // string greeting = "Hello , World";
+    // char letter = 'A';
+    // bool isActive = false;
+    // object obj = null;
+    // int hexValue = 0xff; //hex | 10
+    // long largNumber = 123456789L;
+    // decimal price = 19.99M; //price $
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome @title</h1>
-    @if (available)
-    {
-        <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    }
-    else
-    {
-        <p>My name is Ali</p>
-    }
-    @switch (value)
-    {
-        case "A":
-            <p>A</p>
-            break;
-        case "B":
-            <p>B</p>
-            break;
-    }
-    @switch (gender)
-    {
-        case GenderEnum.Male:
-            <p>male</p>
-            break;
-        case GenderEnum.Female:
-            <p>female</p>
-            break;
-        default:
-            throw new ArgumentOutOfRangeException();
-    }
-    @foreach (var numb in numbers)
-    {
-        <p>@numb</p>
-    }
-    @for (var i = 0; i <= numbers.Count; i++)
-    {
-        //0    => numbers[0]
-        //1
-        //2
-        <p>@numbers[i]</p>
-    }
+    asp .net core
 </div>

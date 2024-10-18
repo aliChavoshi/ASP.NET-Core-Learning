@@ -3,4 +3,23 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<p>@GetAge()</p> 
+<p>@GetName()</p>
+ 
+@functions
+{
+    public int Age { get; set; } = 30;
+
+    int GetAge()
+    {
+        return Age;
+    }
+} 
+@{
+    //public int Name { get; set; }
+
+    string GetName()
+    {
+        return "Ali Chavoshi";
+    }
+}
