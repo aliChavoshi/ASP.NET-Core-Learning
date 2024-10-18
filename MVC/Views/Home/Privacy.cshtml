@@ -1,15 +1,25 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿@using MVC.Entities
+@{
+    ViewData["Title"] = "Privacy Policy Ali"; //Key - Value => Dictionary(key,value)
     var obj = "asp.net core"; //HTML Code
     var alertMessage = $"<script>alert('{obj} Ali Chavoshi')</script>";
+    var persons = ViewData["Persons"] as List<Person>;
+    //var persons = (List<Person>?)ViewData["Persons"];
 }
 <h1>@ViewData["Title"]</h1>
-   
+
 <p>@obj</p>
-@Html.Raw(alertMessage)     @* /without encoding *@
-<p>@GetAge()</p> 
+@Html.Raw(alertMessage) @* /without encoding *@
+<p>@GetAge()</p>
 <p>@GetName()</p>
- 
+@if (persons != null)
+{
+    @foreach (var item in persons)
+    {
+    }
+}
+
+
 @functions
 {
     public int Age { get; set; } = 30;
@@ -18,7 +28,8 @@
     {
         return Age;
     }
-} 
+}
+
 @{
     //public int Name { get; set; }
 

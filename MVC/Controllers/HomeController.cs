@@ -9,9 +9,8 @@ public class HomeController(ILogger<HomeController> logger) : Controller
     //http://localhost:5122/Home/Index
     public IActionResult Index()
     {
+        ViewData["title"] = "ali"; //Dictionary
         return View("Index"); 
-        //index.cshtml
-        //return new ViewResult();
     }
 
     public IActionResult Privacy()
