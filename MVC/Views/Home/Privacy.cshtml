@@ -2,11 +2,12 @@
 @{
     ViewData["Title"] = "Privacy Policy Ali"; //Key - Value => Dictionary(key,value)
 }
-
+@await Component.InvokeAsync("GetCountriesComponents")
 <div>
     <partial name="_PartialView" model="@Model"/>
     @* @await Html.PartialAsync("_PartialView") *@
     @* @{ *@
     @*     await Html.RenderPartialAsync("_PartialView"); *@
     @* } *@
+
 </div>
