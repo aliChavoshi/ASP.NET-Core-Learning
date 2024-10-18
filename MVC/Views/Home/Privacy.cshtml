@@ -1,44 +1,18 @@
 ﻿@using MVC.Entities
 @{
     ViewData["Title"] = "Privacy Policy Ali"; //Key - Value => Dictionary(key,value)
-    var obj = "asp.net core"; //HTML Code
-    var alertMessage = $"<script>alert('{obj} Ali Chavoshi')</script>";
-    var persons = ViewData["Persons"] as List<Person>;
-    //var persons = (List<Person>?)ViewData["Persons"];
-    Layout = "_Layout";
 }
-<h1>@ViewData["Title"]</h1>
-<h2>
-    @ViewBag?.name?.ToString() 
-    <a ></a>
-</h2>
-<p>@obj</p>
-@Html.Raw(alertMessage) @* /without encoding *@
-<p>@GetAge()</p>
-<p>@GetName()</p>
-@if (persons != null)
-{
-    @foreach (var item in persons)
+
+<h1>Header</h1>
+<div>
+    <p>Body</p>
+</div>
+
+<div>
+
+    @section footer
     {
+        <h1>This is My Footer</h1>
     }
-}
 
-
-@functions
-{
-    public int Age { get; set; } = 30;
-
-    int GetAge()
-    {
-        return Age;
-    }
-}
-
-@{
-    //public int Name { get; set; }
-
-    string GetName()
-    {
-        return "Ali Chavoshi";
-    }
-}
+</div>
