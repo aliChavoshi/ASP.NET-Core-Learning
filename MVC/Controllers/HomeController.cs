@@ -13,15 +13,32 @@ public class HomeController(ILogger<HomeController> logger) : Controller
 
     public IActionResult Privacy()
     {
-        ViewData["CountryTitle"] = "Countries";
-        ViewData["Countries"] = new List<string>()
+        var model = GetCountries();
+        return View(model);
+    }
+
+    public IActionResult MyView()
+    {
+        var model = GetCountries();
+        return PartialView("_PartialView", model);
+    }
+
+    private static CountryViewModel GetCountries()
+    {
+        //SOLID => S 
+        var model = new CountryViewModel()
         {
-            "Paris",
-            "Kashan",
-            "Tehran",
-            "Karaj"
+            Names =
+            [
+                "Paris",
+                "Kashan",
+                "Tehran",
+                "Karaj",
+                "Ahvaz"
+            ],
+            Title = "Countries"
         };
-        return View();
+        return model;
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

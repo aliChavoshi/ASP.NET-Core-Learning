@@ -1,7 +1,8 @@
-﻿<header>
-    <h3>@ViewData["CountryTitle"]</h3>
+﻿@model CountryViewModel
+<header>
+    <h3>@Model.Title</h3>
 </header>
-@foreach (var item in (List<string>?)ViewData["Countries"]!)
+@foreach (var item in Model.Names)
 {
     <p>@item</p>
 }
