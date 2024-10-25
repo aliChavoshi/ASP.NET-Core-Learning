@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MVC.Interfaces;
 using MVC.Models;
 
 namespace MVC.Views.Components;
 
-public class GetCountriesComponents : ViewComponent
+public class GetCountriesComponents(ICountryRepository countryRepository) : ViewComponent
 {
-    public Task<IViewComponentResult> InvokeAsync(CountryViewModel model)
+    public Task<IViewComponentResult> InvokeAsync()
     {
-        //Logic
         return Task.FromResult<IViewComponentResult>(
-            View("/Views/Components/CountriesComponent.cshtml", model)
+            View("/Views/Components/CountriesComponent.cshtml", countryRepository.GetCountries())
         );
     }
 }

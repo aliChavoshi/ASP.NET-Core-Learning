@@ -1,6 +1,15 @@
-﻿@model CountryViewModel
+﻿@using MVC.Interfaces
+@model CountryViewModel 
+@* //View Injection *@
+@* @inject ICountryRepository CountryRepository *@
+
 @{
     ViewData["Title"] = "Privacy Policy Ali"; //Key - Value => Dictionary(key,value)
 }
 @* View Component *@
-@await Component.InvokeAsync("GetCountriesComponents", Model)
+@await Component.InvokeAsync("GetCountriesComponents")
+<div>
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+</div>

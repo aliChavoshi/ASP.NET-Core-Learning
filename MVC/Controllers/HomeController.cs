@@ -13,8 +13,7 @@ public class HomeController(ILogger<HomeController> logger) : Controller
 
     public IActionResult Privacy()
     {
-        var model = GetCountries(); //DB == database
-        return View(model);
+        return View();
     }
 
     public IActionResult MyView()
