@@ -4,10 +4,11 @@ using System.Diagnostics;
 
 namespace MVC.Controllers;
 
-public class HomeController(ILogger<HomeController> logger) : Controller
+public class HomeController(ILogger<HomeController> logger, IWebHostEnvironment environment) : Controller
 {
     public IActionResult Index()
     {
+        var value = environment.IsDevelopment(); //true
         return View("Index");
     }
 
