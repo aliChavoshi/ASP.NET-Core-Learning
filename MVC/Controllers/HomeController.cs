@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MVC.Models;
 using System.Diagnostics;
+using MVC.Options;
 
 namespace MVC.Controllers;
 
@@ -11,15 +12,22 @@ public class HomeController(
 {
     public IActionResult Index()
     {
-        // var value = configuration["ApiKey"];
-        var clientId = configuration["WeatherApi:ClientId"];
-        ViewBag.clientId = clientId ?? "default Value";
+        //1
+        // var weatherApi = configuration
+        //     .GetSection(nameof(WeatherApi)) //get parent
+        //     .Get<WeatherApi>(); //get children
+        //
+        // ViewBag.secretKey = weatherApi!.SecretKey!;
+        // ViewBag.clientId = weatherApi.ClientId!;
 
-        //sub value
-        var subChild = configuration["WeatherApi:child:subChild"];
+        //2
+        var options = new WeatherApi();
+        configuration.GetSection(nameof(WeatherApi))
+            .Bind(options);
 
-        var secretKey = configuration.GetValue("WeatherApi:SecretKey", "default");
-        ViewBag.secretKey = secretKey ?? "default";
+        ViewBag.secretKey = options!.SecretKey!;
+        ViewBag.clientId = options.ClientId!;
+
         return View("Index");
     }
 
