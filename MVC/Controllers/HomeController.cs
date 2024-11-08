@@ -4,11 +4,16 @@ using System.Diagnostics;
 
 namespace MVC.Controllers;
 
-public class HomeController(ILogger<HomeController> logger, IWebHostEnvironment environment) : Controller
+public class HomeController(
+    ILogger<HomeController> logger,
+    IWebHostEnvironment environment,
+    IConfiguration configuration) : Controller
 {
     public IActionResult Index()
     {
-        var value = environment.IsDevelopment(); //true
+        // var value = configuration["ApiKey"];
+        var value = configuration.GetValue<string>("ApiKey");
+        ViewBag.apiKey = value;
         return View("Index");
     }
 
