@@ -12,8 +12,8 @@ public class HomeController(
     public IActionResult Index()
     {
         // var value = configuration["ApiKey"];
-        var value = configuration.GetValue<string>("ApiKey");
-        ViewBag.apiKey = value;
+        var value = configuration.GetValue("ApiKey", "default Value");
+        ViewBag.apiKey = value ?? "default Value";
         return View("Index");
     }
 
