@@ -1,6 +1,6 @@
 ﻿namespace MVC.Options;
 
-public class WeatherApi
+public class WeatherApiOptions
 {
     public string? ClientId { get; set; }
     public string? SecretKey { get; set; }

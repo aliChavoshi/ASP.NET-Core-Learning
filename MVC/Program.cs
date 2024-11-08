@@ -1,5 +1,6 @@
 using MVC.Controllers;
 using MVC.Interfaces;
+using MVC.Options;
 using MVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICountryRepository, CountryService>(); //DI Scope 
+builder.Services.Configure<WeatherApiOptions>(builder.Configuration.GetSection("WeatherApi"));
 
 var app = builder.Build();
 

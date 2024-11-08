@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MVC.Models;
 using System.Diagnostics;
+using Microsoft.Extensions.Options;
 using MVC.Options;
 
 namespace MVC.Controllers;
@@ -8,25 +9,28 @@ namespace MVC.Controllers;
 public class HomeController(
     ILogger<HomeController> logger,
     IWebHostEnvironment environment,
-    IConfiguration configuration) : Controller
+    IConfiguration configuration,
+    IOptions<WeatherApiOptions> weatherOptions) : Controller
 {
+    private readonly WeatherApiOptions _options = weatherOptions.Value;
+
     public IActionResult Index()
     {
         //1
         // var weatherApi = configuration
-        //     .GetSection(nameof(WeatherApi)) //get parent
-        //     .Get<WeatherApi>(); //get children
+        //     .GetSection("WeatherApi") //get parent
+        //     .Get<WeatherApiOptions>(); //get children
         //
         // ViewBag.secretKey = weatherApi!.SecretKey!;
         // ViewBag.clientId = weatherApi.ClientId!;
 
         //2
-        var options = new WeatherApi();
-        configuration.GetSection(nameof(WeatherApi))
-            .Bind(options);
+        // var options = new WeatherApiOptions();
+        // configuration.GetSection("WeatherApi")
+        //     .Bind(options);
 
-        ViewBag.secretKey = options!.SecretKey!;
-        ViewBag.clientId = options.ClientId!;
+        ViewBag.secretKey = _options!.SecretKey!;
+        ViewBag.clientId = _options.ClientId!;
 
         return View("Index");
     }
