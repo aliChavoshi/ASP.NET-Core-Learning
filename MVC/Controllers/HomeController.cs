@@ -12,8 +12,14 @@ public class HomeController(
     public IActionResult Index()
     {
         // var value = configuration["ApiKey"];
-        var value = configuration.GetValue("ApiKey", "default Value");
-        ViewBag.apiKey = value ?? "default Value";
+        var clientId = configuration["WeatherApi:ClientId"];
+        ViewBag.clientId = clientId ?? "default Value";
+
+        //sub value
+        var subChild = configuration["WeatherApi:child:subChild"];
+
+        var secretKey = configuration.GetValue("WeatherApi:SecretKey", "default");
+        ViewBag.secretKey = secretKey ?? "default";
         return View("Index");
     }
 
