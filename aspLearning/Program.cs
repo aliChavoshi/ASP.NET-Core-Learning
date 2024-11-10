@@ -35,11 +35,11 @@ builder.Services.AddDbContextPool<MyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")).UseLazyLoadingProxies(false);
 });
 //Elmah Log
-builder.Services.AddElmah<SqlErrorLog>(opt =>
-{
-    opt.Path = "elmah";
-    opt.ConnectionString = "Server=.;Database=Log_DB;User ID=sa;Password=@dminiskr@;MultipleActiveResultSets=true;";
-});
+// builder.Services.AddElmah<SqlErrorLog>(opt =>
+// {
+//     opt.Path = "elmah";
+//     opt.ConnectionString = "Server=.;Database=Log_DB;User ID=sa;Password=@dminiskr@;MultipleActiveResultSets=true;";
+// });
 
 builder.Services.AddResponseCaching();
 builder.Services.AddOutputCache();
@@ -68,10 +68,10 @@ if (!app.Environment.IsDevelopment())
 //shops
 //orders
 app.UseStaticFiles(); //access to NewFolder
-app.UseStaticFiles(new StaticFileOptions()
-{
-    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "MyWebRoot"))
-}); //access to MyWebRoot
+// app.UseStaticFiles(new StaticFileOptions()
+// {
+//     FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "MyWebRoot"))
+// }); //access to MyWebRoot
 // app.Use(async (context, func) =>
 // {
 //     var endPoint = context.GetEndpoint();
@@ -91,7 +91,7 @@ app.UseAuthorization();
 
 #region CustomMiddleware
 
-app.UseElmah();
+// app.UseElmah();
 // app.Use(async (context, @delegate) =>
 // {
 //     //await context.Response.WriteAsync("Middleware-1 ");

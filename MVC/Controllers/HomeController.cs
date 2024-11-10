@@ -7,14 +7,12 @@ using MVC.Options;
 namespace MVC.Controllers;
 
 public class HomeController(
-    ILogger<HomeController> logger,
-    IWebHostEnvironment environment,
     IConfiguration configuration,
     IOptions<WeatherApiOptions> weatherOptions) : Controller
 {
     private readonly WeatherApiOptions _options = weatherOptions.Value;
 
-    public IActionResult Index()
+    public IActionResult Index(int id,string name)
     {
         //1
         // var weatherApi = configuration

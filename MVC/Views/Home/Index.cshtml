@@ -23,4 +23,10 @@
 <div class="text-center">
     asp .net core @(ViewBag.clientId)
     secret : @(ViewBag.secretKey)
+    <form asp-controller="Home" asp-action="Index"asp-route-id="1" asp-route-name="">
+         <a asp-controller="Home" asp-action="Privacy">Create Person</a>
+    </form>
+    <form action="~/home/index"></form>
+    <input type="text" asp-area="" asp-controller="" asp-action="" asp-route-id=""/>
+    <input href="/home/index/1"/>
 </div>
