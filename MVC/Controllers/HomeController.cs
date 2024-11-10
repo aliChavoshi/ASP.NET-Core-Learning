@@ -28,7 +28,8 @@ public class HomeController(
         // var options = new WeatherApiOptions();
         // configuration.GetSection("WeatherApi")
         //     .Bind(options);
-
+        ViewBag.secretKey = configuration["WeatherApi:SecretKey"]!;
+        ViewBag.clientId = configuration["WeatherApi:ClientId"]!;
         ViewBag.secretKey = _options!.SecretKey!;
         ViewBag.clientId = _options.ClientId!;
 
