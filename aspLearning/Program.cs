@@ -10,7 +10,7 @@ using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
 {
-    WebRootPath = "NewFolder"
+    // WebRootPath = "NewFolder"
 });
 
 // Add services to the container.
