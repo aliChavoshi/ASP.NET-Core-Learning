@@ -65,7 +65,7 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Contr
         {
             var authors = uow.Rep<Author>().GetAll();
             ViewData["AuthorId"] = new SelectList(authors, "Id", "Name");
-            ModelState.AddModelError(nameof(course.Title), "title is used by another user");
+            ModelState.AddModelError("Title","title is used by another user");
             return View(course);
         }
 
