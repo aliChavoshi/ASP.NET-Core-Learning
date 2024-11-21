@@ -15,11 +15,13 @@ public class CourseRepository(MyContext context) : GenericRepository<Course>(con
 
     public async Task<List<Course>> GetAllAsyncCourses(string filter)
     {
-        var result = context.Courses.Include(x => x.Author)
+        var result = context.Courses
+            .Include(x => x.Author)
             .AsQueryable();
+
         if (!string.IsNullOrEmpty(filter))
         {
-            result = result.Where(c => c.Title.Contains(filter));
+            result = result.Where(c => c.Title.Contains(filter) || c.Author.Name.Contains(filter));
         }
 
         return await result.ToListAsync();

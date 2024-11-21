@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq.Expressions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using aspLearning.Entities;
@@ -14,11 +15,13 @@ using aspLearning.Filters;
 
 namespace aspLearning.Controllers;
 
-public class CoursesController(IUnitOfWork uow, IDistributedCache cache,ICourseRepository courseRepository) : Controller
+[TypeFilter(typeof(CourseIndexActionFilter), Arguments = ["order", "controller"], Order = 2)]
+public class CoursesController(IUnitOfWork uow, IDistributedCache cache, ICourseRepository courseRepository)
+    : Controller
 {
     public const string CacheName = "Courses";
 
-    [TypeFilter(typeof(CourseIndexActionFilter))]
+    [TypeFilter(typeof(CourseIndexActionFilter), Arguments = ["order", "action"], Order = 1)]
     public async Task<IActionResult> Index(string filter)
     {
         // ViewData["filter"] = filter;
@@ -59,7 +62,7 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache,ICourseR
         {
             var authors = uow.Rep<Author>().GetAll();
             ViewData["AuthorId"] = new SelectList(authors, "Id", "Name");
-            ModelState.AddModelError("Title","title is used by another user");
+            ModelState.AddModelError("Title", "title is used by another user");
             return View(course);
         }
 

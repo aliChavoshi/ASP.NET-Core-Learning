@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace aspLearning.Filters;
 
-public class CourseIndexActionFilter(ILogger<CourseIndexActionFilter> logger) : IActionFilter
+public class CourseIndexActionFilter(string key, string value) : IActionFilter
 {
     public void OnActionExecuting(ActionExecutingContext context)
     {

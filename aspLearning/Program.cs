@@ -1,5 +1,6 @@
 using aspLearning.Binders;
 using aspLearning.Context;
+using aspLearning.Filters;
 using aspLearning.Interfaces;
 using aspLearning.Middleware;
 using aspLearning.Services;
@@ -12,6 +13,8 @@ builder.Services.AddControllersWithViews(options =>
 {
     // Add custom model binder
     options.ModelBinderProviders.Insert(0, new CourseBinderProvider());
+    //options.Filters.Add<CourseIndexActionFilter>();
+    options.Filters.Add(new CourseIndexActionFilter("order", "global"));
 });
 
 // Register scoped and transient services
