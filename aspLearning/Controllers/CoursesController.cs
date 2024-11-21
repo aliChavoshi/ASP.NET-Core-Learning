@@ -15,13 +15,13 @@ using aspLearning.Filters;
 
 namespace aspLearning.Controllers;
 
-[TypeFilter(typeof(CourseIndexActionFilter), Arguments = ["order", "controller"], Order = 2)]
+[TypeFilter(typeof(CourseIndexActionFilter), Arguments = ["order", "controller", 2])]
 public class CoursesController(IUnitOfWork uow, IDistributedCache cache, ICourseRepository courseRepository)
     : Controller
 {
     public const string CacheName = "Courses";
 
-    [TypeFilter(typeof(CourseIndexActionFilter), Arguments = ["order", "action"], Order = 1)]
+    [TypeFilter(typeof(CourseIndexActionFilter), Arguments = ["order", "action", 1])]
     public async Task<IActionResult> Index(string filter)
     {
         // ViewData["filter"] = filter;

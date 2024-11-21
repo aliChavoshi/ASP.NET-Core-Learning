@@ -14,7 +14,7 @@ builder.Services.AddControllersWithViews(options =>
     // Add custom model binder
     options.ModelBinderProviders.Insert(0, new CourseBinderProvider());
     //options.Filters.Add<CourseIndexActionFilter>();
-    options.Filters.Add(new CourseIndexActionFilter("order", "global"));
+    options.Filters.Add(new CourseIndexActionFilter("order", "global",3));
 });
 
 // Register scoped and transient services
