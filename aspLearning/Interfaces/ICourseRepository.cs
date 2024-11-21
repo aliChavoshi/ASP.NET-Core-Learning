@@ -8,4 +8,5 @@ public interface ICourseRepository : IGenericRepository<Course>
 {
     //Custom
     List<Course> GetTopSellingCourses(int count);
+    Task<List<Course>> GetAllAsyncCourses(string filter);
 }

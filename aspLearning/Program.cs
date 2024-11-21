@@ -16,7 +16,7 @@ builder.Services.AddControllersWithViews(options =>
 
 // Register scoped and transient services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 // Database context configuration
 builder.Services.AddDbContextPool<MyContext>(options =>
 {

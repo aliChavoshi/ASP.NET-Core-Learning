@@ -6,7 +6,10 @@ public class CourseIndexActionFilter(ILogger<CourseIndexActionFilter> logger) : 
 {
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        logger.LogInformation("called before action");
+        if (context.ActionArguments.TryGetValue("name", out var name))
+        {
+            var myName = name?.ToString();
+        }
     }
 
     public void OnActionExecuted(ActionExecutedContext context)

@@ -14,23 +14,15 @@ using aspLearning.Filters;
 
 namespace aspLearning.Controllers;
 
-public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Controller
+public class CoursesController(IUnitOfWork uow, IDistributedCache cache,ICourseRepository courseRepository) : Controller
 {
     public const string CacheName = "Courses";
 
     [TypeFilter(typeof(CourseIndexActionFilter))]
-    public async Task<IActionResult> Index(string name)
+    public async Task<IActionResult> Index(string filter)
     {
-        var cacheOptions = new DistributedCacheEntryOptions()
-            .SetAbsoluteExpiration(TimeSpan.FromMinutes(20))
-            .SetSlidingExpiration(TimeSpan.FromMinutes(2));
-        var result = await cache.GetOrSetAsync<List<Course>>(CacheName, () =>
-        {
-            return Task.FromResult(uow.Context.Set<Course>()
-                .Include(x => x.Author)
-                .ToList());
-        }, cacheOptions);
-
+        ViewBag.filter = filter;
+        var result = await courseRepository.GetAllAsyncCourses(filter);
         return View(result);
     }
 

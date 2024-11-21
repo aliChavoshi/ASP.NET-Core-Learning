@@ -11,6 +11,13 @@
     <a class="btn btn-success" asp-controller="Courses" asp-action="Create">Create New</a>
     @* <a href="~/courses/create">Create New</a> *@
 </p>
+<div class="row">
+    <form method="get">
+        <div class="col-6">
+            <input type="text" name="filter" value="@ViewBag?.filter" class="form-control"/>
+        </div>
+    </form>
+</div>
 <table class="table">
     <thead>
     <tr>
