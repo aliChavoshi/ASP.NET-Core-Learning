@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using aspLearning.Controllers;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace aspLearning.Filters;
 
@@ -6,14 +7,21 @@ public class CourseIndexActionFilter(ILogger<CourseIndexActionFilter> logger) : 
 {
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        if (context.ActionArguments.TryGetValue("name", out var name))
+        var hasArguments = context.ActionArguments.TryGetValue("filter", out var filter);
+        if (hasArguments)
         {
-            var myName = name?.ToString();
+            context.HttpContext.Items["filter"] = filter;
         }
     }
 
     public void OnActionExecuted(ActionExecutedContext context)
     {
-        logger.LogInformation("calling after action");
+        if (context.Controller is CoursesController controller)
+        {
+            if (context.HttpContext.Items.TryGetValue("filter", out var value))
+            {
+                controller.ViewData["filter"] = value as string;
+            }
+        }
     }
 }

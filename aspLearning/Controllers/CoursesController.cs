@@ -21,7 +21,7 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache,ICourseR
     [TypeFilter(typeof(CourseIndexActionFilter))]
     public async Task<IActionResult> Index(string filter)
     {
-        ViewBag.filter = filter;
+        // ViewData["filter"] = filter;
         var result = await courseRepository.GetAllAsyncCourses(filter);
         return View(result);
     }

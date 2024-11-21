@@ -14,7 +14,7 @@
 <div class="row">
     <form method="get">
         <div class="col-6">
-            <input type="text" name="filter" value="@ViewBag?.filter" class="form-control"/>
+            <input type="text" name="filter" value="@(ViewData["filter"])" class="form-control"/>
         </div>
     </form>
 </div>
