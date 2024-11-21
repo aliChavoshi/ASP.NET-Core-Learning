@@ -8,13 +8,9 @@
 
   <ItemGroup>
     <Compile Remove="MyWebRoot\**" />
-    <Compile Remove="NewFolder\**" />
     <Content Remove="MyWebRoot\**" />
-    <Content Remove="NewFolder\**" />
     <EmbeddedResource Remove="MyWebRoot\**" />
-    <EmbeddedResource Remove="NewFolder\**" />
     <None Remove="MyWebRoot\**" />
-    <None Remove="NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>

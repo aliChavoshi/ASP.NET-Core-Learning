@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using aspLearning.Binders;
+using aspLearning.Filters;
 
 namespace aspLearning.Controllers;
 
@@ -17,6 +18,7 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Contr
 {
     public const string CacheName = "Courses";
 
+    [TypeFilter(typeof(CourseIndexActionFilter))]
     public async Task<IActionResult> Index(string name)
     {
         var cacheOptions = new DistributedCacheEntryOptions()
@@ -69,13 +71,13 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache) : Contr
             return View(course);
         }
 
-        if (!ModelState.IsValid)
-        {
-            //Please insert value
-            //min length is 10
-            var errors = string.Join("\n", ModelState.Values.SelectMany(v => v.Errors).Select(err => err.ErrorMessage));
-            return BadRequest(errors);
-        }
+        // if (!ModelState.IsValid)
+        // {
+        //     //Please insert value
+        //     //min length is 10
+        //     var errors = string.Join("\n", ModelState.Values.SelectMany(v => v.Errors).Select(err => err.ErrorMessage));
+        //     return BadRequest(errors);
+        // }
 
         uow.Rep<Course>().Add(course);
         uow.Complete();
