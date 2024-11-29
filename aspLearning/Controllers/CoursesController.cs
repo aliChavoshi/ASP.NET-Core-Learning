@@ -22,7 +22,8 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache, ICourse
     public const string CacheName = "Courses";
 
     [TypeFilter(typeof(CourseIndexActionFilter), Arguments = ["order", "action", 1])]
-    //[TypeFilter(typeof(HandleExceptionFilter))]              
+    //[TypeFilter(typeof(HandleExceptionFilter))]
+    [FilterClassName]         //simple
     public async Task<IActionResult> Index(string filter)
     {
         //throw new Exception("this is test");
