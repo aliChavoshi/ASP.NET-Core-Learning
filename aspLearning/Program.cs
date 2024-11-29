@@ -34,6 +34,7 @@ builder.Services.AddDbContextPool<MyContext>(options =>
 builder.Services.AddResponseCaching();
 builder.Services.AddOutputCache();
 builder.Services.AddTransient<CustomMiddleware>();
+builder.Services.AddScoped<MyServiceFilter>();   //lifetime
 
 var app = builder.Build();
 

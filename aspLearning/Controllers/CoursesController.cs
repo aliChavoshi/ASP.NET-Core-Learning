@@ -24,6 +24,7 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache, ICourse
     [TypeFilter(typeof(CourseIndexActionFilter), Arguments = ["order", "action", 1])]
     //[TypeFilter(typeof(HandleExceptionFilter))]
     [FilterClassName]         //simple
+    [ServiceFilter(typeof(MyServiceFilter))]
     public async Task<IActionResult> Index(string filter)
     {
         //throw new Exception("this is test");
