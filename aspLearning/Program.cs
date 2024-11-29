@@ -15,6 +15,7 @@ builder.Services.AddControllersWithViews(options =>
     options.ModelBinderProviders.Insert(0, new CourseBinderProvider());
     //options.Filters.Add<CourseIndexActionFilter>();
     options.Filters.Add<HandleExceptionFilter>();
+    options.Filters.Add<AddCustomHeaderFilter>();
     options.Filters.Add(new CourseIndexActionFilter("order", "global",3));
 });
 

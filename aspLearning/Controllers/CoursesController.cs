@@ -25,7 +25,7 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache, ICourse
     //[TypeFilter(typeof(HandleExceptionFilter))]              
     public async Task<IActionResult> Index(string filter)
     {
-        throw new Exception("this is test");
+        //throw new Exception("this is test");
         // ViewData["filter"] = filter;
         var result = await courseRepository.GetAllAsyncCourses(filter);
         return View(result);
