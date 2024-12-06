@@ -4,6 +4,7 @@ using aspLearning.Filters;
 using aspLearning.Interfaces;
 using aspLearning.Middleware;
 using aspLearning.Services;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder();
@@ -14,11 +15,15 @@ builder.Services.AddControllersWithViews(options =>
     // Add custom model binder
     options.ModelBinderProviders.Insert(0, new CourseBinderProvider());
     //options.Filters.Add<CourseIndexActionFilter>();
-    options.Filters.Add<HandleExceptionFilter>();
+    //options.Filters.Add<HandleExceptionFilter>();
     options.Filters.Add<AddCustomHeaderFilter>();
-    options.Filters.Add(new CourseIndexActionFilter("order", "global",3));
+    options.Filters.Add(new CourseIndexActionFilter("order", "global", 3));
 });
-
+builder.Services.AddHttpLogging(options =>
+{
+    options.RequestBodyLogLimit = 32;
+    options.LoggingFields = HttpLoggingFields.All;
+});
 // Register scoped and transient services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
@@ -37,12 +42,18 @@ builder.Services.AddTransient<CustomMiddleware>();
 builder.Services.AddScoped<MyServiceFilter>();   //lifetime
 
 var app = builder.Build();
-
+app.UseHttpLogging();
 // Configure the HTTP request pipeline
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsProduction())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+else
+{
+    //app.UseDeveloperExceptionPage();
+    app.UseExceptionHandlingMiddleware();
+}
+
 
 app.UseStaticFiles();
 app.UseRouting();

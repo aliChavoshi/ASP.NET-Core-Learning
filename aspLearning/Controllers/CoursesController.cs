@@ -12,6 +12,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using aspLearning.Binders;
 using aspLearning.Filters;
+using aspLearning.Middleware;
 
 namespace aspLearning.Controllers;
 
@@ -23,7 +24,7 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache, ICourse
 
     [TypeFilter(typeof(CourseIndexActionFilter), Arguments = ["order", "action", 1])]
     //[TypeFilter(typeof(HandleExceptionFilter))]
-    [FilterClassName]         //simple
+    [FilterClassName] //simple
     [ServiceFilter(typeof(MyServiceFilter))]
     public async Task<IActionResult> Index(string filter)
     {
@@ -43,7 +44,10 @@ public class CoursesController(IUnitOfWork uow, IDistributedCache cache, ICourse
         var course = uow.Context.Set<Course>()
             .Include(x => x.Author)
             .FirstOrDefault(x => x.Id == id);
-        if (course == null) return NotFound();
+        if (course == null)
+        {
+            throw new CustomException("I can't find this course",500);
+        }
 
         return View(course);
     }
